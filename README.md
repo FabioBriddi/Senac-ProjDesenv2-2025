@@ -67,9 +67,9 @@ Permite:
 - visualização de métricas resumidas;
 - exibição de gráficos e tabelas.
 
-![Insights](./img_git/insights.png)
+![Insights](./img_git/insights2.png)
 
-![Uploads](./img_git/uploads.png)
+![Uploads](./img_git/uploads2.png)
 
 
 ### **2. Backend FastAPI**
@@ -173,10 +173,10 @@ O projeto estabelece uma base sólida para desenvolvimentos futuros, podendo evo
 ## 📚 Referências
 
 - FastAPI Documentation — https://fastapi.tiangolo.com/
-
 - SQLite Documentation — https://sqlite.org/docs.html
-
 - Chart.js Documentation — https://www.chartjs.org/docs/latest/
+
+teste
 
 ---
 
