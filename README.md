@@ -38,6 +38,9 @@ Criar uma solução web capaz de centralizar dados de streaming musical, recebid
 - Desenvolver gráficos e tabelas que complementem a interpretação dos dados.
 - Possibilitar futura expansão para conectores reais de plataformas digitais.
 
+
+![Obejtivos](./img_git/objetivo.png)
+
 ---
 
 ## 🛠️ Stack Tecnológico
@@ -79,8 +82,6 @@ Estrutura básica:
 - **sources**  
 - **ingestions**  
 - **stream_events**
-
-> **[DIAGRAMA ENTIDADE-RELACIONAMENTO (DER)]**
 
 ![Diagrama ER](./img_git/diagr_er.png)
 
