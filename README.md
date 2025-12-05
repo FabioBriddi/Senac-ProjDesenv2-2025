@@ -46,11 +46,13 @@ Criar uma solução web capaz de centralizar dados de streaming musical, recebid
 ## 🛠️ Stack Tecnológico
 
 - **FastAPI** — backend e processamento dos arquivos.
-- **Python 3** — linguagem principal do projeto.
+- **Python** — linguagem principal do projeto.
 - **SQLite** — armazenamento local dos dados.
 - **HTML + CSS + JavaScript** — desenvolvimento da interface.
 - **Chart.js** — geração de gráficos.
 - **Fetch API** — comunicação entre front-end e backend.
+
+A definição do stack tecnológico priorizou a simplicidade arquitetural, baixo custo operacional e alto potencial de evolução. A combinação de FastAPI, Python e SQLite oferece um backend leve, eficiente e de fácil manutenção, ideal processamento de dados em protótipos. No front-end, a opção por HTML, CSS e JavaScript puro, aliado ao uso da Fetch API, garante leveza e maior transparência no fluxo de comunicação entre cliente e servidor. Por fim, o Chart.js foi adotado por sua simplicidade de integração e capacidade de gerar visualizações claras, possibilitando que o sistema seja compreendido, executado e expandido, sem comprometer a qualidade técnica do projeto.
 
 ---
 
@@ -65,9 +67,10 @@ Permite:
 - visualização de métricas resumidas;
 - exibição de gráficos e tabelas.
 
-> **[TELA INICIAL DO SISTEMA]**
+![Insights](./img_git/insights.png)
 
-> **[TELA DE INSIGHTS COM GRÁFICOS]**
+![Uploads](./img_git/uploads.png)
+
 
 ### **2. Backend FastAPI**
 Responsável por:
@@ -109,8 +112,6 @@ Casos extremos também foram testados, como:
 - CSVs com colunas ausentes;
 - arquivos vazios;
 - valores inconsistentes.
-
-> **[PRINTS DE TESTES E RESULTADOS]**
 
 ---
 
