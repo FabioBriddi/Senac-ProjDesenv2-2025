@@ -82,6 +82,8 @@ Estrutura básica:
 
 > **[DIAGRAMA ENTIDADE-RELACIONAMENTO (DER)]**
 
+![Diagrama ER](./img_git/diagr_er.png)
+
 ---
 
 ## 🏗️ Arquitetura da Aplicação
