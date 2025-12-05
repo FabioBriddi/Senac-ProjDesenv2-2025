@@ -1,110 +1,223 @@
-
-> **Espaço para inserir diagrama de arquitetura (PNG/JPG)**
-
-### Artefatos adicionais sugeridos (mínimo 5):
-
-- Benchmarking (comparação com soluções reais)  
-- Project Canvas / MVP Canvas  
-- Personas  
-- Casos de uso e User Stories  
-- Diagrama ER das tabelas  
-- Protótipo do layout (Figma ou similar)  
-- Backlog / Kanban do desenvolvimento  
-
-> **Espaço para linkar artefatos do repositório**
+# BRD Hub  
+### Sistema de Monitoramento e Análise de Streams Musicais  
 
 ---
 
-## 🔍 Validação
+## 📘 Resumo do Projeto
 
-A validação do sistema foi realizada por meio de testes manuais:
+O avanço do consumo de música em plataformas digitais provocou um aumento expressivo na geração de dados relacionados ao desempenho de artistas, faixas e catálogos. No entanto, a ausência de ferramentas simples, unificadas e acessíveis torna difícil consolidar, armazenar e interpretar esses dados de forma eficiente.
 
-- Upload de arquivos CSV reais fornecidos durante o desenvolvimento.  
-- Análise do impacto dos uploads nas tabelas SQLite.  
-- Validação da resposta dos endpoints `/reports/*`.  
-- Conferência visual das métricas, gráficos e tabelas no dashboard.  
+Este projeto apresenta o **BRD Hub**, uma aplicação web desenvolvida com o objetivo de possibilitar o upload, o processamento e a visualização de dados de streaming musical. A solução utiliza **FastAPI** no backend, **SQLite** como banco de dados local e uma interface web elaborada em **HTML, CSS e JavaScript**, incluindo gráficos gerados com **Chart.js**.
 
-Também foram realizados testes com casos extremos, como:
-
-- Arquivos vazios  
-- Campos faltantes  
-- CSVs com ordem de colunas diferente  
-
-Esse processo permitiu ajustar o fluxo de ingestão e garantir que a aplicação respondesse de forma consistente.
+O BRD Hub tem caráter didático e prático, permitindo a estudantes e iniciantes compreender as interações entre API, banco de dados, manipulação de arquivos e visualização de métricas.
 
 ---
 
-## 📊 Estratégia
+## 🎯 Definição do Problema
 
-Para comprovar o alcance dos objetivos, foram aplicados alguns métodos simples:
+A indústria da música digital é marcada por uma grande diversidade de plataformas — como Spotify, YouTube e Apple Music —, cada uma fornecendo relatórios próprios em formatos muitas vezes distintos. Essa fragmentação gera dificuldades como:
 
-- **Simulação de uso real:** enviando múltiplos arquivos de diferentes artistas.  
-- **Testes exploratórios:** navegando pelas telas como um usuário comum.  
-- **Análise de logs do backend:** garantindo o processamento adequado de cada upload.  
-- **Comparação com métricas esperadas:** verificando se os números consolidados batiam com os dados de origem.
+- consolidação de dados oriundos de fontes diferentes;
+- interpretação limitada de métricas agregadas;
+- elevado esforço manual para monitorar desempenhos;
+- falta de histórico centralizado de informações.
 
-Futuramente, essa estratégia pode ser ampliada com entrevistas e questionários para usuários da área.
+Relatórios internacionais, como o IFPI Global Music Report, reforçam a relevância de soluções que organizem estes dados de forma estruturada.
+
+Durante a fase inicial deste trabalho, observou-se que estudantes e profissionais iniciantes encontram desafios principalmente em:
+
+- manipular arquivos CSV extensos,
+- interpretar colunas e métricas,
+- visualizar dados de forma acessível.
+
+Para contextualizar a posição do BRD Hub, apresenta-se uma tabela comparativa simplificada:
+
+| Plataforma             | Centralização de Dados | Visualização Gráfica | Custo        | Foco Educacional |
+|-----------------------|-------------------------|------------------------|--------------|------------------|
+| Ferramenta A          | Parcial                 | Sim                    | Pago         | Não              |
+| Ferramenta B          | Completa                | Sim                    | Pago         | Não              |
+| **BRD Hub (proposto)**| **Sim**                 | **Sim**                | **Gratuito** | **Sim**          |
+
+> **[INSERIR AQUI IMAGEM OU TABELA COMPLETA DE BENCHMARKING]**
 
 ---
 
-## 📈 Consolidação dos Dados Coletados
+## 🎯 Objetivos
 
-Os testes iniciais demonstraram que:
+### Objetivo Geral
 
-- O sistema consegue consolidar dados de múltiplos artistas.  
-- Os insights são atualizados automaticamente após cada upload.  
-- Os gráficos permitem identificar tendências e diferenças entre plataformas.  
-- O SQLite foi suficiente para manter desempenho e simplicidade no desenvolvimento.
+Criar uma solução web capaz de centralizar dados de streaming musical, recebidos via upload de arquivos CSV, armazenando-os em banco de dados e apresentando visualizações simples e intuitivas para análise.
 
-> **Espaço para adicionar gráficos reais exportados do BRD Hub**
+### Objetivos Específicos
+
+- Implementar um backend em **FastAPI** para receber arquivos CSV e disponibilizar relatórios.
+- Modelar um banco de dados **SQLite** para armazenar eventos de streaming.
+- Criar uma interface web funcional para upload, navegação e consulta.
+- Desenvolver gráficos e tabelas que complementem a interpretação dos dados.
+- Possibilitar futura expansão para conectores reais de plataformas digitais.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- **FastAPI** — backend e processamento dos arquivos.
+- **Python 3** — linguagem principal do projeto.
+- **SQLite** — armazenamento local dos dados.
+- **HTML + CSS + JavaScript** — desenvolvimento da interface.
+- **Chart.js** — geração de gráficos.
+- **Fetch API** — comunicação entre front-end e backend.
+
+---
+
+## 🧩 Descrição da Solução
+
+O BRD Hub é composto por:
+
+### **1. Interface Web**
+Permite:
+- navegação por módulos (insights, uploads, conectores, usuários);
+- envio de arquivos CSV;
+- visualização de métricas resumidas;
+- exibição de gráficos e tabelas.
+
+> **[INSERIR AQUI IMAGEM DA TELA INICIAL DO SISTEMA]**
+
+> **[INSERIR AQUI IMAGEM DA TELA DE INSIGHTS COM GRÁFICOS]**
+
+### **2. Backend FastAPI**
+Responsável por:
+- ingestão dos arquivos enviados;
+- tratamento e validação dos dados;
+- inserção no banco de dados;
+- consultas agregadas para relatórios;
+- histórico de uploads processados.
+
+### **3. Banco de Dados SQLite**
+Estrutura básica:
+- **sources**  
+- **ingestions**  
+- **stream_events**
+
+> **[INSERIR AQUI DIAGRAMA ENTIDADE-RELACIONAMENTO (DER)]**
+
+---
+
+## 🏗️ Arquitetura da Aplicação
+
+Representação simplificada da arquitetura:
+
+
+┌───────────────────────────────────────┐
+│ Front-end │
+│ HTML • CSS • JavaScript • Chart.js │
+└───────────────────────────────────────┘
+↓ REST
+┌───────────────────────────────────────┐
+│ FastAPI │
+│ Uploads • Relatórios • Processamento │
+└───────────────────────────────────────┘
+↓ SQL
+┌───────────────────────────────────────┐
+│ SQLite │
+│ Ingestions • Stream Events • Sources │
+└───────────────────────────────────────┘
+
+
+
+> **[INSERIR AQUI DIAGRAMA DE ARQUITETURA EM IMAGEM]**
+
+---
+
+## 🔍 Validação do Sistema
+
+A validação foi conduzida por meio de testes funcionais, incluindo:
+
+- uploads repetidos de arquivos CSV de diferentes estruturas;
+- verificação do armazenamento correto no banco de dados;
+- análise da exibição de métricas e gráficos no front-end;
+- comparação dos resultados apresentados com os valores esperados dos arquivos.
+
+Casos extremos também foram testados, como:
+
+- CSVs com colunas ausentes;
+- arquivos vazios;
+- valores inconsistentes.
+
+> **[INSERIR PRINTS DE TESTES E RESULTADOS]**
+
+---
+
+## 📊 Estratégia de Análise
+
+O sistema organiza os dados para permitir interpretações como:
+
+- volume total de streams armazenados;
+- número de artistas únicos;
+- artistas mais executados;
+- plataformas com maior participação;
+- número total de uploads processados.
+
+Essas análises visam oferecer uma visão exploratória simples, porém útil, do comportamento dos dados inseridos.
+
+> **[INSERIR GRÁFICOS EXPORTADOS DO BRD HUB]**
+
+---
+
+## 📈 Consolidação dos Resultados
+
+Após os testes, concluiu-se que:
+
+- o sistema processa corretamente arquivos de diferentes origens;
+- a API retorna resultados consistentes nos relatórios;
+- o dashboard favorece a compreensão inicial das métricas principais;
+- a organização modular do código facilita expansões futuras.
 
 ---
 
 ## 🏁 Conclusões
 
-O BRD Hub demonstrou ser uma solução funcional para centralização e visualização de métricas de streaming musical. O sistema atende ao problema proposto ao permitir que usuários importem arquivos CSV e visualizem instantaneamente informações relevantes sobre artistas e plataformas.
+O BRD Hub demonstrou viabilidade como uma ferramenta compacta e intuitiva para centralização e visualização de dados de streaming musical. A aplicação cumpre o propósito educacional e técnico, permitindo compreender na prática:
 
-O trabalho também serviu como oportunidade de aprendizado nas áreas de:
+- a construção de uma API REST moderna;
+- a modelagem e manipulação de dados;
+- a integração front-end ↔ back-end;
+- a geração de insights a partir de dados estruturados.
 
-- APIs REST com FastAPI  
-- Modelagem de banco de dados  
-- Manipulação de CSV e ingestão de dados  
-- Construção de dashboards com JavaScript  
-- Arquitetura modular de sistemas  
-
----
-
-## 🚧 Limitações e Perspectivas Futuras
-
-### Limitações atuais
-- Não possui autenticação de usuários  
-- Não possui edição direta de registros  
-- Não integra com APIs reais de plataformas digitais  
-- Dashboards ainda básicos (apenas alguns gráficos simples)
-
-### Futuras melhorias
-- Implementação de login/admin com JWT  
-- Conectores com FUGA, Vydia e The Orchard  
-- Sistema de permissões  
-- Dashboard avançado com filtros e drilldown  
-- Exportação de relatórios em PDF/Excel  
-- Deploy em ambiente cloud
+O projeto estabelece uma base sólida para desenvolvimentos futuros, podendo evoluir para uma solução robusta e completa.
 
 ---
 
-## 📚 Referências Bibliográficas
+## 🚧 Limitações e Trabalhos Futuros
 
-- IFPI. *Global Music Report*. Internacional Federation of the Phonographic Industry, 2023.  
-- WAZLAWICK, Raul Sidnei. **Metodologia de pesquisa para ciência da computação**. Elsevier, 2009.  
-- FastAPI Documentation. https://fastapi.tiangolo.com/  
-- SQLite Documentation. https://sqlite.org/docs.html  
-- Chart.js Documentation. https://www.chartjs.org/docs/latest/
+### Limitações identificadas
+- Ausência de autenticação e perfis de usuário;
+- Falta de filtros avançados (por período, país, faixa etc.);
+- Dependência de uploads manuais de arquivos CSV;
+- Visualizações ainda introdutórias.
+
+### Propostas de aprimoramento
+- Implementação de login com controle de sessão;
+- Desenvolvimento de conectores reais (APIs de distribuidoras);
+- Sistema de relatórios exportáveis (PDF, Excel);
+- Deploy em servidores cloud;
+- Dashboard avançado com filtros interativos.
+
+---
+
+## 📚 Referências
+
+- IFPI – International Federation of the Phonographic Industry. *Global Music Report*.
+- FastAPI Documentation — https://fastapi.tiangolo.com/
+- SQLite Documentation — https://sqlite.org/docs.html
+- Chart.js Documentation — https://www.chartjs.org/docs/latest/
+- WAZLAWICK, Raul Sidnei. *Metodologia de Pesquisa em Ciência da Computação*.
 
 ---
 
 ## ✨ Autor
-> Nome do aluno: **(Adicionar aqui)**  
-> Curso: **(Adicionar aqui)**  
-> Instituição: **(Adicionar aqui)**  
-> GitHub: **(Adicionar aqui)**
+
+> **Nome do(a) aluno(a):** _(preencher)_  
+> **Curso:** _(preencher)_  
+> **Instituição:** _(preencher)_  
+> **GitHub:** _(preencher)_  
 
