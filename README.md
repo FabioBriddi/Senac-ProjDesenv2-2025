@@ -173,7 +173,9 @@ O projeto estabelece uma base sólida para desenvolvimentos futuros, podendo evo
 ## 📚 Referências
 
 - FastAPI Documentation — https://fastapi.tiangolo.com/
+
 - SQLite Documentation — https://sqlite.org/docs.html
+
 - Chart.js Documentation — https://www.chartjs.org/docs/latest/
 
 ---
