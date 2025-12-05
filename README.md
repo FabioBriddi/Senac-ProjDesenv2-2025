@@ -90,45 +90,7 @@ Estrutura básica:
 
 Representação simplificada da arquitetura:
 
-+-----------------------------------------+
-
-|                Front-end                |
-
-|      HTML • CSS • JavaScript • Chart.js |
-
-+-----------------------------------------+
-
-                 |
-
-                 |  REST (Fetch API)
-
-                 v
-
-+-----------------------------------------+
-
-|                 FastAPI                 |
-
-|   Uploads • Processamento • Relatórios  |
-
-+-----------------------------------------+
-
-                 |
-
-                 |  SQL (Queries)
-
-                 v
-
-+-----------------------------------------+
-
-|                 SQLite                  |
-
-|  Ingestions • Stream Events • Sources   |
-
-+-----------------------------------------+
-
-
-
-> **[DIAGRAMA DE ARQUITETURA EM IMAGEM]**
+![Arquitetura](./img_git/arquitetura.png)
 
 ---
 
