@@ -106,7 +106,6 @@ Estrutura básica:
 
 Representação simplificada da arquitetura:
 
-
 ┌───────────────────────────────────────┐
 │ Front-end │
 │ HTML • CSS • JavaScript • Chart.js │
@@ -121,7 +120,6 @@ Representação simplificada da arquitetura:
 │ SQLite │
 │ Ingestions • Stream Events • Sources │
 └───────────────────────────────────────┘
-
 
 
 > **[INSERIR AQUI DIAGRAMA DE ARQUITETURA EM IMAGEM]**
