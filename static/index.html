@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>BRD Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonte simples e layout responsivo -->
+    <style>
+        :root {
+            --primary: #2563eb; /* azul agradável */
+            --primary-dark: #1d4ed8;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-soft: #e5e7eb;
+            --danger: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+        }
+
+        .topbar {
+            height: 56px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .app-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .version-label {
+            opacity: 0.9;
+        }
+
+        .icon-button {
+            border: none;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            transition: background 0.15s ease;
+        }
+
+        .icon-button:hover {
+            background: rgba(15, 23, 42, 0.25);
+        }
+
+        .icon {
+            font-size: 1.1rem;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 56px);
+        }
+
+        .sidebar {
+            background: #ffffff;
+            border-right: 1px solid var(--border-soft);
+            padding: 1rem 0.75rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0.5rem 0 0.75rem 0.75rem;
+        }
+
+        .nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-button {
+            width: 100%;
+            text-align: left;
+            border-radius: 0.75rem;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            background: transparent;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background 0.12s ease, color 0.12s ease;
+        }
+
+        .nav-button span.icon {
+            font-size: 1rem;
+            width: 1.25rem;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: #eff6ff;
+            color: var(--primary-dark);
+        }
+
+        .nav-button.active {
+            background: #dbeafe;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 1.25rem 1.5rem 2rem;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .content-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .content-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .primary-button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 0.45rem 0.9rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 1px 3px rgba(37, 99, 235, 0.45);
+            transition: background 0.12s ease, transform 0.05s ease;
+        }
+
+        .primary-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .primary-button:active {
+            transform: translateY(0);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+
+        .secondary-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 0.9rem 1rem;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border-soft);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .card-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .metrics-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .metrics-col {
+            flex: 1;
+        }
+
+        .period-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .table-wrapper {
+            margin-top: 0.5rem;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th, td {
+            padding: 0.35rem 0.4rem;
+            border-bottom: 1px solid var(--border-soft);
+            text-align: left;
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            background: #f9fafb;
+            z-index: 1;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            background: #eff6ff;
+            color: var(--primary-dark);
+        }
+
+        .status-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-text {
+            font-size: 0.8rem;
+            color: var(--danger);
+            margin-top: 0.4rem;
+        }
+
+        /* Layout responsivo */
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-soft);
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .sidebar-title {
+                display: none;
+            }
+
+            .nav-list {
+                display: flex;
+                gap: 0.25rem;
+            }
+
+            .nav-item {
+                margin-bottom: 0;
+            }
+
+            .nav-button {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .content {
+                padding: 0.75rem 0.85rem 1.25rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Top bar -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="app-logo">BH</div>
+            <div>
+                <div class="app-title">BRD Hub</div>
+                <div style="font-size: 0.75rem; opacity: 0.85;">Painel de streams e insights</div>
+            </div>
+        </div>
+
+        <div class="topbar-right">
+            <div class="version-label">Versão: 1.0.0</div>
+            <button class="icon-button" type="button" onclick="alert('Área de ajuda poderá trazer documentação e tutoriais em versões futuras.')">
+                <span class="icon">❔</span>
+                <span>Help</span>
+            </button>
+            <button class="icon-button" type="button" onclick="alert('Módulo de login e controle de sessão será implementado em próxima etapa.')">
+                <span class="icon">⏻</span>
+                <span>Sair</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- Sidebar: menu à esquerda -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Navegação</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button class="nav-button active" id="nav-insights" onclick="showView('insights')">
+                        <span class="icon">📊</span>
+                        <span>Insights</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-button" id="nav-uploads" onclick="showView('uploads')">
+                        <span class="icon">⤴️</span>
+                        <span>Uploads</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-button" id="nav-sources" onclick="showView('sources')">
+                        <span class="icon">🔌</span>
+                        <span>Conectores</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-button" id="nav-users" onclick="showView('users')">
+                        <span class="icon">👤</span>
+                        <span>Usuários</span>
+                    </button>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Área principal -->
+        <main class="content">
+            <!-- INSIGHTS -->
+            <section id="view-insights">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">Insights em tempo quase real</div>
+                        <div class="content-subtitle">
+                            Resumo de uploads, artistas, plataformas e volume de streams.
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        <button class="primary-button" type="button" onclick="refreshInsights()">
+                            <span class="icon">⟳</span>
+                            <span>Atualizar insights</span>
+                        </button>
+                        <span class="secondary-text" id="last-refresh"></span>
+                    </div>
+                </div>
+
+                <!-- Linha de métricas -->
+                <div class="grid" style="margin-bottom: 1rem;">
+                    <div class="card" style="grid-column: span 4;">
+                        <div class="card-header">
+                            <div class="card-title">Resumo geral</div>
+                            <div class="badge">/reports/summary</div>
+                        </div>
+
+                        <div class="metrics-row">
+                            <div class="metrics-col">
+                                <div class="metric-value" id="summary-artists">–</div>
+                                <div class="metric-label">Artistas únicos</div>
+                            </div>
+                            <div class="metrics-col">
+                                <div class="metric-value" id="summary-streams">–</div>
+                                <div class="metric-label">Total de streams</div>
+                            </div>
+                            <div class="metrics-col">
+                                <div class="metric-value" id="summary-uploads">–</div>
+                                <div class="metric-label">Uploads processados</div>
+                            </div>
+                        </div>
+
+                        <div class="period-text" id="summary-period">Período: –</div>
+                        <div class="status-text" id="summary-status"></div>
+                        <div class="error-text hidden" id="summary-error"></div>
+                    </div>
+
+                    <div class="card" style="grid-column: span 8;">
+                        <div class="card-header">
+                            <div class="card-title">Top artistas por streams</div>
+                            <div class="badge">/reports/top-artists</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr); gap: 0.75rem; align-items: flex-start;">
+                            <div>
+                                <canvas id="chart-top-artists" height="120"></canvas>
+                            </div>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Artista</th>
+                                            <th>Streams</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="top-artists-body">
+                                        <!-- linhas preenchidas via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="error-text hidden" id="top-artists-error"></div>
+                    </div>
+                </div>
+
+                <!-- Linha de plataformas -->
+                <div class="grid">
+                    <div class="card" style="grid-column: span 7;">
+                        <div class="card-header">
+                            <div class="card-title">Streams por plataforma</div>
+                            <div class="badge">/reports/streams-by-platform</div>
+                        </div>
+                        <canvas id="chart-platforms" height="140"></canvas>
+                        <div class="error-text hidden" id="platforms-error"></div>
+                    </div>
+
+                    <div class="card" style="grid-column: span 5;">
+                        <div class="card-header">
+                            <div class="card-title">Detalhe por plataforma</div>
+                            <div class="card-subtitle">
+                                Ranking simples para consulta rápida.
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Plataforma</th>
+                                        <th>Streams</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="platforms-body">
+                                    <!-- preenchido via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UPLOADS -->
+            <section id="view-uploads" class="hidden">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">Uploads de arquivos</div>
+                        <div class="content-subtitle">
+                            Envie relatórios CSV por artista ou dispositivo para alimentar os insights.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="card" style="grid-column: span 6;">
+                        <div class="card-header">
+                            <div class="card-title">Upload por artista</div>
+                            <div class="card-subtitle">Endpoint: /ingestions/upload/artist</div>
+                        </div>
+                        <form id="form-upload-artist">
+                            <input type="file" id="file-artist" accept=".csv" />
+                            <div style="margin-top: 0.5rem;">
+                                <button class="primary-button" type="submit">
+                                    <span class="icon">⤴️</span>
+                                    <span>Enviar arquivo</span>
+                                </button>
+                            </div>
+                            <div class="status-text" id="upload-artist-status"></div>
+                            <div class="error-text hidden" id="upload-artist-error"></div>
+                        </form>
+                    </div>
+
+                    <div class="card" style="grid-column: span 6;">
+                        <div class="card-header">
+                            <div class="card-title">Upload por dispositivo</div>
+                            <div class="card-subtitle">Endpoint: /ingestions/upload/device</div>
+                        </div>
+                        <form id="form-upload-device">
+                            <input type="file" id="file-device" accept=".csv" />
+                            <div style="margin-top: 0.5rem;">
+                                <button class="primary-button" type="submit">
+                                    <span class="icon">⤴️</span>
+                                    <span>Enviar arquivo</span>
+                                </button>
+                            </div>
+                            <div class="status-text" id="upload-device-status"></div>
+                            <div class="error-text hidden" id="upload-device-error"></div>
+                        </form>
+                    </div>
+
+                    <div class="card" style="grid-column: span 12;">
+                        <div class="card-header">
+                            <div class="card-title">Histórico de uploads</div>
+                            <div class="card-subtitle">Lista simples vinda de /ingestions/</div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fonte</th>
+                                        <th>Arquivo</th>
+                                        <th>Linhas</th>
+                                        <th>Data ingestão</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="uploads-body">
+                                    <!-- preenchido via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="status-text" id="uploads-status"></div>
+                        <div class="error-text hidden" id="uploads-error"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONECTORES -->
+            <section id="view-sources" class="hidden">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">Conectores</div>
+                        <div class="content-subtitle">
+                            Etapa futura: integração com FUGA, The Orchard, Vydia etc.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Em breve</div>
+                    <p class="secondary-text">
+                        Nesta versão, os conectores estão representados pelos uploads manuais de arquivos CSV.
+                        Integrações diretas com APIs poderão ser adicionadas nas próximas iterações.
+                    </p>
+                </div>
+            </section>
+
+            <!-- USUÁRIOS -->
+            <section id="view-users" class="hidden">
+                <div class="content-header">
+                    <div>
+                        <div class="content-title">Gestão de usuários</div>
+                        <div class="content-subtitle">
+                            Módulo de autenticação e perfis será implementado em uma próxima versão.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Planejamento</div>
+                    <ul class="secondary-text">
+                        <li>Login com usuário e senha.</li>
+                        <li>Perfis Administrador / Visualização.</li>
+                        <li>Controle de acesso por rota (FastAPI + JWT ou similar).</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- Navegação entre seções ---
+        function showView(view) {
+            const allViews = ["insights", "uploads", "sources", "users"];
+            allViews.forEach(v => {
+                const section = document.getElementById("view-" + v);
+                const navButton = document.getElementById("nav-" + v);
+                if (v === view) {
+                    section.classList.remove("hidden");
+                    navButton.classList.add("active");
+                } else {
+                    section.classList.add("hidden");
+                    navButton.classList.remove("active");
+                }
+            });
+        }
+
+        // --- Helpers para formatar números e datas ---
+        function formatNumber(n) {
+            if (n == null || isNaN(n)) return "0";
+            return n.toLocaleString("pt-BR");
+        }
+
+        function formatDate(iso) {
+            if (!iso) return "–";
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return iso;
+            return d.toLocaleDateString("pt-BR");
+        }
+
+        // --- Variáveis para gráficos ---
+        let chartTopArtists = null;
+        let chartPlatforms = null;
+
+        // --- Carregar resumo (/reports/summary) ---
+        async function loadSummary() {
+            const statusEl = document.getElementById("summary-status");
+            const errorEl = document.getElementById("summary-error");
+            errorEl.classList.add("hidden");
+            errorEl.textContent = "";
+
+            try {
+                statusEl.textContent = "Carregando resumo...";
+                const resp = await fetch("/reports/summary");
+                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
+                const data = await resp.json();
+
+                document.getElementById("summary-artists").textContent = formatNumber(data.total_artists ?? 0);
+                document.getElementById("summary-streams").textContent = formatNumber(data.total_streams ?? 0);
+                document.getElementById("summary-uploads").textContent = formatNumber(data.total_uploads ?? 0);
+
+                const periodText = (data.period_start && data.period_end)
+                    ? `Período: ${formatDate(data.period_start)} a ${formatDate(data.period_end)}`
+                    : "Período: baseado nos dados carregados";
+
+                document.getElementById("summary-period").textContent = periodText;
+                statusEl.textContent = "Resumo carregado com sucesso.";
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "";
+                errorEl.textContent = "Erro ao carregar insights. Verifique o backend.";
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        // --- Carregar top artistas (/reports/top-artists) ---
+        async function loadTopArtists() {
+            const errorEl = document.getElementById("top-artists-error");
+            errorEl.classList.add("hidden");
+            errorEl.textContent = "";
+
+            try {
+                const resp = await fetch("/reports/top-artists");
+                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
+                const data = await resp.json();
+
+                const tbody = document.getElementById("top-artists-body");
+                tbody.innerHTML = "";
+
+                const labels = [];
+                const values = [];
+
+                data.forEach((row, index) => {
+                    const tr = document.createElement("tr");
+                    const tdIndex = document.createElement("td");
+                    const tdArtist = document.createElement("td");
+                    const tdStreams = document.createElement("td");
+
+                    tdIndex.textContent = index + 1;
+                    tdArtist.textContent = row.artist_name ?? "-";
+                    tdStreams.textContent = formatNumber(row.total_streams ?? 0);
+
+                    tr.appendChild(tdIndex);
+                    tr.appendChild(tdArtist);
+                    tr.appendChild(tdStreams);
+                    tbody.appendChild(tr);
+
+                    labels.push(row.artist_name ?? "-");
+                    values.push(row.total_streams ?? 0);
+                });
+
+                // Atualizar gráfico
+                const ctx = document.getElementById("chart-top-artists").getContext("2d");
+                if (chartTopArtists) chartTopArtists.destroy();
+                chartTopArtists = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: "Streams",
+                            data: values,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { font: { size: 10 } }
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error(err);
+                errorEl.textContent = "Erro ao carregar top artistas. Verifique o backend.";
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        // --- Carregar streams por plataforma (/reports/streams-by-platform) ---
+        async function loadPlatforms() {
+            const errorEl = document.getElementById("platforms-error");
+            errorEl.classList.add("hidden");
+            errorEl.textContent = "";
+
+            try {
+                const resp = await fetch("/reports/streams-by-platform");
+                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
+                const data = await resp.json();
+
+                const tbody = document.getElementById("platforms-body");
+                tbody.innerHTML = "";
+
+                const labels = [];
+                const values = [];
+
+                data.forEach((row, index) => {
+                    const tr = document.createElement("tr");
+                    const tdIndex = document.createElement("td");
+                    const tdService = document.createElement("td");
+                    const tdStreams = document.createElement("td");
+
+                    tdIndex.textContent = index + 1;
+                    tdService.textContent = row.service ?? "-";
+                    tdStreams.textContent = formatNumber(row.total_streams ?? 0);
+
+                    tr.appendChild(tdIndex);
+                    tr.appendChild(tdService);
+                    tr.appendChild(tdStreams);
+                    tbody.appendChild(tr);
+
+                    labels.push(row.service ?? "-");
+                    values.push(row.total_streams ?? 0);
+                });
+
+                const ctx = document.getElementById("chart-platforms").getContext("2d");
+                if (chartPlatforms) chartPlatforms.destroy();
+                chartPlatforms = new Chart(ctx, {
+                    type: "doughnut",
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: "Streams por plataforma",
+                            data: values
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: "right"
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error(err);
+                errorEl.textContent = "Erro ao carregar streams por plataforma. Verifique o backend.";
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        // --- Histórico de uploads (/ingestions/) ---
+        async function loadUploads() {
+            const statusEl = document.getElementById("uploads-status");
+            const errorEl = document.getElementById("uploads-error");
+            statusEl.textContent = "Carregando histórico de uploads...";
+            errorEl.classList.add("hidden");
+            errorEl.textContent = "";
+
+            try {
+                const resp = await fetch("/ingestions/");
+                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
+                const data = await resp.json();
+
+                const tbody = document.getElementById("uploads-body");
+                tbody.innerHTML = "";
+
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${row.id}</td>
+                        <td>${row.source_id ?? ""}</td>
+                        <td>${row.file_name ?? ""}</td>
+                        <td>${formatNumber(row.total_rows ?? 0)}</td>
+                        <td>${row.ingested_at ? row.ingested_at.replace("T", " ").substring(0, 19) : ""}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                statusEl.textContent = data.length
+                    ? `Exibindo ${data.length} upload(s) registrados.`
+                    : "Nenhum upload registrado até o momento.";
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "";
+                errorEl.textContent = "Erro ao carregar histórico de uploads.";
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        // --- Upload por artista ---
+        async function handleUpload(endpoint, fileInputId, statusId, errorId) {
+            const fileInput = document.getElementById(fileInputId);
+            const statusEl = document.getElementById(statusId);
+            const errorEl = document.getElementById(errorId);
+
+            errorEl.classList.add("hidden");
+            errorEl.textContent = "";
+
+            if (!fileInput.files.length) {
+                errorEl.textContent = "Selecione um arquivo CSV antes de enviar.";
+                errorEl.classList.remove("hidden");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                statusEl.textContent = "Enviando arquivo...";
+                const resp = await fetch(endpoint, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!resp.ok) {
+                    throw new Error("Erro HTTP " + resp.status);
+                }
+
+                const data = await resp.json();
+                statusEl.textContent = `Upload concluído. Registros processados: ${data.total_rows ?? "?"}.`;
+                fileInput.value = "";
+                // Recarrega histórico e insights após upload
+                await loadUploads();
+                await refreshInsights();
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "";
+                errorEl.textContent = "Erro ao enviar o arquivo (HTTP 500).";
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        document.getElementById("form-upload-artist").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await handleUpload(
+                "/ingestions/upload/artist",
+                "file-artist",
+                "upload-artist-status",
+                "upload-artist-error"
+            );
+        });
+
+        document.getElementById("form-upload-device").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await handleUpload(
+                "/ingestions/upload/device",
+                "file-device",
+                "upload-device-status",
+                "upload-device-error"
+            );
+        });
+
+        // --- Atualizar todos os insights ---
+        async function refreshInsights() {
+            await Promise.all([
+                loadSummary(),
+                loadTopArtists(),
+                loadPlatforms()
+            ]);
+
+            const now = new Date();
+            document.getElementById("last-refresh").textContent =
+                "Atualizado em " + now.toLocaleTimeString("pt-BR");
+        }
+
+        // --- Inicialização ---
+        window.addEventListener("DOMContentLoaded", async () => {
+            showView("insights");
+            await refreshInsights();
+            await loadUploads();
+        });
+    </script>
+</body>
+</html>
