@@ -106,21 +106,20 @@ Estrutura básica:
 
 Representação simplificada da arquitetura:
 
-┌───────────────────────────────────────┐
-│ Front-end │
-│ HTML • CSS • JavaScript • Chart.js │
-└───────────────────────────────────────┘
-↓ REST
-┌───────────────────────────────────────┐
-│ FastAPI │
-│ Uploads • Relatórios • Processamento │
-└───────────────────────────────────────┘
-↓ SQL
-┌───────────────────────────────────────┐
-│ SQLite │
-│ Ingestions • Stream Events • Sources │
-└───────────────────────────────────────┘
-
+┌───────────────────────────────────────┐ <br>
+│ Front-end                             │ <br>
+│ HTML • CSS • JavaScript • Chart.js    │ <br>
+└───────────────────────────────────────┘ <br>
+↓ REST <br>
+┌───────────────────────────────────────┐ <br>
+│ FastAPI                               │ <br>
+│ Uploads • Relatórios • Processamento  │ <br>
+└───────────────────────────────────────┘ <br>
+↓ SQL <br>
+┌───────────────────────────────────────┐ <br>
+│ SQLite                                │ <br>
+│ Ingestions • Stream Events • Sources  │ <br>
+└───────────────────────────────────────┘<br>
 
 > **[INSERIR AQUI DIAGRAMA DE ARQUITETURA EM IMAGEM]**
 
