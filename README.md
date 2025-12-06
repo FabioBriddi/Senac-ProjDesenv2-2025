@@ -71,6 +71,8 @@ Permite:
 
 ![Uploads](./img_git/uploads2.png)
 
+![Conectoes](./img_git/conectores.png)
+
 
 ### **2. Backend FastAPI**
 Responsável por:
