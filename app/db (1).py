@@ -89,87 +89,83 @@ def init_db():
     )
 
     # =========================================================================
+    # NOVA TABELA: Conectores de API
+    # =========================================================================
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS api_connectors (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            description TEXT,
+            base_url TEXT,
+            auth_type TEXT NOT NULL DEFAULT 'api_key',
+            api_key TEXT,
+            api_secret TEXT,
+            client_id TEXT,
+            client_secret TEXT,
+            token_url TEXT,
+            additional_headers TEXT,
+            is_active INTEGER NOT NULL DEFAULT 1,
+            last_sync_at TEXT,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            notes TEXT
+        )
+        """
+    )
+
+    # =========================================================================
     # ÍNDICES PARA PERFORMANCE
     # =========================================================================
 
-    # Índices para stream_events (queries de agregação por artista, data, serviço)
+    # Índices para stream_events
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_artist
-        ON stream_events (artist_name)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_artist ON stream_events (artist_name)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_date
-        ON stream_events (stream_date)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_date ON stream_events (stream_date)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_service
-        ON stream_events (service)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_service ON stream_events (service)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_country
-        ON stream_events (country)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_country ON stream_events (country)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_ingestion
-        ON stream_events (ingestion_id)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_ingestion ON stream_events (ingestion_id)"
     )
-    # Índice composto para queries de artista + data (comum em relatórios)
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_stream_events_artist_date
-        ON stream_events (artist_name, stream_date)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_stream_events_artist_date ON stream_events (artist_name, stream_date)"
     )
 
-    # Índices para device_daily_streams (queries por dispositivo, distribuidor, data)
+    # Índices para device_daily_streams
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_device_streams_device
-        ON device_daily_streams (device_name)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_device_streams_device ON device_daily_streams (device_name)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_device_streams_day
-        ON device_daily_streams (day_label)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_device_streams_day ON device_daily_streams (day_label)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_device_streams_distributor
-        ON device_daily_streams (distributor)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_device_streams_distributor ON device_daily_streams (distributor)"
     )
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_device_streams_ingestion
-        ON device_daily_streams (ingestion_id)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_device_streams_ingestion ON device_daily_streams (ingestion_id)"
     )
-    # Índice composto para queries por dispositivo + dia
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_device_streams_device_day
-        ON device_daily_streams (device_name, day_label)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_device_streams_device_day ON device_daily_streams (device_name, day_label)"
     )
 
-    # Índice para ingestions por data
+    # Índice para ingestions
     cur.execute(
-        """
-        CREATE INDEX IF NOT EXISTS idx_ingestions_date
-        ON ingestions (ingested_at)
-        """
+        "CREATE INDEX IF NOT EXISTS idx_ingestions_date ON ingestions (ingested_at)"
+    )
+
+    # Índice para api_connectors
+    cur.execute(
+        "CREATE INDEX IF NOT EXISTS idx_api_connectors_name ON api_connectors (name)"
+    )
+    cur.execute(
+        "CREATE INDEX IF NOT EXISTS idx_api_connectors_active ON api_connectors (is_active)"
     )
 
     # =========================================================================
@@ -197,8 +193,7 @@ def init_db():
 
 def rebuild_indexes():
     """
-    Função utilitária para reconstruir índices (útil após grandes imports).
-    Pode ser chamada via endpoint admin ou script de manutenção.
+    Função utilitária para reconstruir índices.
     """
     conn = get_connection()
     cur = conn.cursor()
@@ -210,7 +205,6 @@ def rebuild_indexes():
 def vacuum_db():
     """
     Compacta o banco de dados SQLite.
-    Útil após deletar muitos registros.
     """
     conn = get_connection()
     conn.execute("VACUUM")

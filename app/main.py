@@ -4,9 +4,9 @@ from fastapi.responses import HTMLResponse
 import os
 
 from .db import init_db
-from .routers import auth, sources, ingestions, reports
+from .routers import auth, sources, ingestions, reports, connectors
 
-app = FastAPI(title="Music Insights Hub (SQLite)", version="0.1.0")
+app = FastAPI(title="BRD Hub API (SQLite)", version="0.2.0")
 
 
 @app.on_event("startup")
@@ -19,6 +19,8 @@ app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(sources.router, prefix="/sources", tags=["sources"])
 app.include_router(ingestions.router, prefix="/ingestions", tags=["ingestions"])
 app.include_router(reports.router, prefix="/reports", tags=["reports"])
+app.include_router(connectors.router, prefix="/connectors", tags=["connectors"])
+
 
 @app.get("/health")
 def health():

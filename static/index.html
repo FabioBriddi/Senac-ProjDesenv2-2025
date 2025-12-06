@@ -5,10 +5,9 @@
     <title>BRD Hub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Fonte simples e layout responsivo -->
     <style>
         :root {
-            --primary: #2563eb; /* azul agradável */
+            --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --bg: #f3f4f6;
             --card-bg: #ffffff;
@@ -16,11 +15,11 @@
             --text-muted: #6b7280;
             --border-soft: #e5e7eb;
             --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #f59e0b;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -40,343 +39,229 @@
             box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2);
         }
 
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
+        .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
 
         .app-logo {
-            width: 28px;
-            height: 28px;
-            border-radius: 999px;
+            width: 28px; height: 28px; border-radius: 999px;
             background: rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
         }
 
-        .app-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.85rem;
-        }
-
-        .version-label {
-            opacity: 0.9;
-        }
+        .app-title { font-size: 1.1rem; font-weight: 600; }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; }
+        .version-label { opacity: 0.9; }
 
         .icon-button {
-            border: none;
-            background: transparent;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.85rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 999px;
+            border: none; background: transparent; color: #fff; cursor: pointer;
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.85rem; padding: 0.2rem 0.5rem; border-radius: 999px;
             transition: background 0.15s ease;
         }
+        .icon-button:hover { background: rgba(15, 23, 42, 0.25); }
+        .icon { font-size: 1.1rem; }
 
-        .icon-button:hover {
-            background: rgba(15, 23, 42, 0.25);
-        }
+        .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 56px); }
 
-        .icon {
-            font-size: 1.1rem;
-        }
-
-        .layout {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            min-height: calc(100vh - 56px);
-        }
-
-        .sidebar {
-            background: #ffffff;
-            border-right: 1px solid var(--border-soft);
-            padding: 1rem 0.75rem;
-        }
+        .sidebar { background: #ffffff; border-right: 1px solid var(--border-soft); padding: 1rem 0.75rem; }
 
         .sidebar-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin: 0.5rem 0 0.75rem 0.75rem;
+            font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin: 0.5rem 0 0.75rem 0.75rem;
         }
 
-        .nav-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-item {
-            margin-bottom: 0.25rem;
-        }
+        .nav-list { list-style: none; margin: 0; padding: 0; }
+        .nav-item { margin-bottom: 0.25rem; }
 
         .nav-button {
-            width: 100%;
-            text-align: left;
-            border-radius: 0.75rem;
-            border: none;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.9rem;
-            background: transparent;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: background 0.12s ease, color 0.12s ease;
+            width: 100%; text-align: left; border-radius: 0.75rem; border: none;
+            padding: 0.5rem 0.75rem; font-size: 0.9rem; background: transparent;
+            color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;
+            cursor: pointer; transition: background 0.12s ease, color 0.12s ease;
         }
+        .nav-button span.icon { font-size: 1rem; width: 1.25rem; text-align: center; }
+        .nav-button:hover { background: #eff6ff; color: var(--primary-dark); }
+        .nav-button.active { background: #dbeafe; color: var(--primary-dark); font-weight: 600; }
 
-        .nav-button span.icon {
-            font-size: 1rem;
-            width: 1.25rem;
-            text-align: center;
-        }
-
-        .nav-button:hover {
-            background: #eff6ff;
-            color: var(--primary-dark);
-        }
-
-        .nav-button.active {
-            background: #dbeafe;
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-
-        .content {
-            padding: 1.25rem 1.5rem 2rem;
-        }
+        .content { padding: 1.25rem 1.5rem 2rem; max-width: 1400px; margin: 0 auto; }
 
         .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; gap: 0.75rem;
         }
 
-        .content-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+        .content-title { font-size: 1.1rem; font-weight: 600; }
+        .content-subtitle { font-size: 0.85rem; color: var(--text-muted); }
 
-        .content-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .toolbar {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
+        .toolbar { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-end; }
 
         .primary-button {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 999px;
-            padding: 0.45rem 0.9rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
+            background: var(--primary); color: #fff; border: none; border-radius: 999px;
+            padding: 0.45rem 0.9rem; font-size: 0.85rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.4rem;
             box-shadow: 0 1px 3px rgba(37, 99, 235, 0.45);
             transition: background 0.12s ease, transform 0.05s ease;
         }
+        .primary-button:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        .primary-button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+        .secondary-button {
+            background: #e5e7eb; color: var(--text-main); border: none; border-radius: 999px;
+            padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.3rem;
         }
+        .secondary-button:hover { background: #d1d5db; }
 
-        .primary-button:active {
-            transform: translateY(0);
-            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-        }
+        .success-button { background: var(--success); color: #fff; border: none; border-radius: 999px; padding: 0.4rem 0.8rem; font-size: 0.8rem; cursor: pointer; }
+        .success-button:hover { background: #15803d; }
 
-        .secondary-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+        .danger-button { background: var(--danger); color: #fff; border: none; border-radius: 999px; padding: 0.35rem 0.7rem; font-size: 0.75rem; cursor: pointer; }
+        .danger-button:hover { background: #b91c1c; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 1rem;
-        }
+        .export-button { background: var(--success); color: #fff; border: none; border-radius: 999px; padding: 0.35rem 0.7rem; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem; }
+        .export-button:hover { background: #15803d; }
+
+        .secondary-text { font-size: 0.8rem; color: var(--text-muted); }
+        .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 1rem;
-            padding: 0.9rem 1rem;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-            border: 1px solid var(--border-soft);
+            background: var(--card-bg); border-radius: 1rem; padding: 0.9rem 1rem;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05); border: 1px solid var(--border-soft);
         }
 
-        .card-header {
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; gap: 0.5rem; flex-wrap: wrap; }
+        .card-header-left { display: flex; align-items: baseline; gap: 0.5rem; }
+        .card-title { font-size: 0.9rem; font-weight: 500; }
+        .card-subtitle { font-size: 0.75rem; color: var(--text-muted); }
+
+        .metric-value { font-size: 1.3rem; font-weight: 600; }
+        .metric-label { font-size: 0.8rem; color: var(--text-muted); }
+        .metrics-row { display: flex; gap: 1rem; }
+        .metrics-col { flex: 1; }
+        .period-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .extra-summary { margin-top: 0.4rem; font-size: 0.8rem; color: var(--text-muted); }
+        .extra-summary span.label { font-weight: 500; color: var(--text-main); }
+
+        .table-wrapper { margin-top: 0.5rem; max-height: 220px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        th, td { padding: 0.35rem 0.4rem; border-bottom: 1px solid var(--border-soft); text-align: left; }
+        th { color: var(--text-muted); font-weight: 500; position: sticky; top: 0; background: #f9fafb; z-index: 1; }
+        tr:last-child td { border-bottom: none; }
+
+        .badge { display: inline-flex; align-items: center; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.7rem; background: #eff6ff; color: var(--primary-dark); white-space: nowrap; }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+
+        .status-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .hidden { display: none !important; }
+        .error-text { font-size: 0.8rem; color: var(--danger); margin-top: 0.4rem; }
+
+        .chart-container { position: relative; width: 100%; max-height: 220px; height: 220px; }
+        .chart-container-large { position: relative; width: 100%; height: 280px; max-height: 280px; }
+        .chart-container-medium { position: relative; width: 100%; height: 200px; max-height: 200px; }
+
+        .filters-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; background: #f9fafb; border-radius: 0.5rem; }
+        .filter-group { display: flex; align-items: center; gap: 0.35rem; }
+        .filter-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+        .filter-select, .filter-input { padding: 0.3rem 0.5rem; border-radius: 0.4rem; border: 1px solid var(--border-soft); font-size: 0.8rem; background: #fff; }
+        .filter-select:focus, .filter-input:focus { outline: none; border-color: var(--primary); }
+
+        /* Forms */
+        .form-group { margin-bottom: 0.75rem; }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 500; margin-bottom: 0.25rem; color: var(--text-main); }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; padding: 0.5rem 0.6rem; border-radius: 0.5rem;
+            border: 1px solid var(--border-soft); font-size: 0.85rem; background: #fff;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); }
+        .form-textarea { min-height: 60px; resize: vertical; }
+        .form-hint { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff; border-radius: 1rem; padding: 1.25rem; width: 90%; max-width: 550px;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .modal-title { font-size: 1rem; font-weight: 600; }
+        .modal-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted); }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-soft); }
+
+        /* Toggle */
+        .toggle-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .3s; border-radius: 22px;
+        }
+        .toggle-slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .toggle-slider { background-color: var(--success); }
+        input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-soft);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 0.4rem;
+        }
+        .spinner-large {
+            width: 32px;
+            height: 32px;
+            border-width: 3px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8);
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .card-subtitle {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .metric-value {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-
-        .metric-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .metrics-row {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .metrics-col {
-            flex: 1;
-        }
-
-        .period-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.3rem;
-        }
-
-        .table-wrapper {
-            margin-top: 0.5rem;
-            max-height: 220px;
-            overflow-y: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        th, td {
-            padding: 0.35rem 0.4rem;
-            border-bottom: 1px solid var(--border-soft);
-            text-align: left;
-        }
-
-        th {
-            color: var(--text-muted);
-            font-weight: 500;
-            position: sticky;
-            top: 0;
-            background: #f9fafb;
-            z-index: 1;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .badge {
-            display: inline-flex;
             align-items: center;
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            background: #eff6ff;
-            color: var(--primary-dark);
+            justify-content: center;
+            border-radius: 1rem;
+            z-index: 10;
+        }
+        .card-loading {
+            position: relative;
+            min-height: 100px;
         }
 
-        .status-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .error-text {
-            font-size: 0.8rem;
-            color: var(--danger);
-            margin-top: 0.4rem;
-        }
-
-        /* Layout responsivo */
         @media (max-width: 900px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                border-right: none;
-                border-bottom: 1px solid var(--border-soft);
-                display: flex;
-                overflow-x: auto;
-            }
-
-            .sidebar-title {
-                display: none;
-            }
-
-            .nav-list {
-                display: flex;
-                gap: 0.25rem;
-            }
-
-            .nav-item {
-                margin-bottom: 0;
-            }
-
-            .nav-button {
-                white-space: nowrap;
-            }
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { border-right: none; border-bottom: 1px solid var(--border-soft); display: flex; overflow-x: auto; }
+            .sidebar-title { display: none; }
+            .nav-list { display: flex; gap: 0.25rem; }
+            .nav-item { margin-bottom: 0; }
+            .nav-button { white-space: nowrap; }
+            .form-row { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
-            .content {
-                padding: 0.75rem 0.85rem 1.25rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
+            .content { padding: 0.75rem 0.85rem 1.25rem; }
+            .grid { grid-template-columns: 1fr; }
+            .filters-row { flex-direction: column; align-items: stretch; }
         }
     </style>
 
-    <!-- Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Top bar -->
     <header class="topbar">
         <div class="topbar-left">
             <div class="app-logo">BH</div>
@@ -385,161 +270,101 @@
                 <div style="font-size: 0.75rem; opacity: 0.85;">Painel de streams e insights</div>
             </div>
         </div>
-
         <div class="topbar-right">
-            <div class="version-label">Versão: 1.0.0</div>
-            <button class="icon-button" type="button" onclick="alert('Área de ajuda poderá trazer documentação e tutoriais em versões futuras.')">
-                <span class="icon">❔</span>
-                <span>Help</span>
+            <div class="version-label">Versão: 1.5.0</div>
+            <button class="icon-button" type="button" onclick="alert('Documentação e tutoriais em versões futuras.')">
+                <span class="icon">❔</span><span>Help</span>
             </button>
-            <button class="icon-button" type="button" onclick="alert('Módulo de login e controle de sessão será implementado em próxima etapa.')">
-                <span class="icon">⏻</span>
-                <span>Sair</span>
+            <button class="icon-button" type="button" onclick="alert('Módulo de login será implementado em próxima etapa.')">
+                <span class="icon">⏻</span><span>Sair</span>
             </button>
         </div>
     </header>
 
     <div class="layout">
-        <!-- Sidebar: menu à esquerda -->
         <aside class="sidebar">
             <div class="sidebar-title">Navegação</div>
             <ul class="nav-list">
-                <li class="nav-item">
-                    <button class="nav-button active" id="nav-insights" onclick="showView('insights')">
-                        <span class="icon">📊</span>
-                        <span>Insights</span>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-button" id="nav-uploads" onclick="showView('uploads')">
-                        <span class="icon">⤴️</span>
-                        <span>Uploads</span>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-button" id="nav-sources" onclick="showView('sources')">
-                        <span class="icon">🔌</span>
-                        <span>Conectores</span>
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-button" id="nav-users" onclick="showView('users')">
-                        <span class="icon">👤</span>
-                        <span>Usuários</span>
-                    </button>
-                </li>
+                <li class="nav-item"><button class="nav-button active" id="nav-insights" onclick="showView('insights')"><span class="icon">📊</span><span>Insights</span></button></li>
+                <li class="nav-item"><button class="nav-button" id="nav-uploads" onclick="showView('uploads')"><span class="icon">⤴️</span><span>Uploads</span></button></li>
+                <li class="nav-item"><button class="nav-button" id="nav-connectors" onclick="showView('connectors')"><span class="icon">🔌</span><span>Conectores</span></button></li>
+                <li class="nav-item"><button class="nav-button" id="nav-users" onclick="showView('users')"><span class="icon">👤</span><span>Usuários</span></button></li>
             </ul>
         </aside>
 
-        <!-- Área principal -->
         <main class="content">
             <!-- INSIGHTS -->
             <section id="view-insights">
                 <div class="content-header">
                     <div>
                         <div class="content-title">Insights em tempo quase real</div>
-                        <div class="content-subtitle">
-                            Resumo de uploads, artistas, plataformas e volume de streams.
-                        </div>
+                        <div class="content-subtitle">Resumo de uploads, artistas, plataformas e volume de streams.</div>
                     </div>
                     <div class="toolbar">
-                        <button class="primary-button" type="button" onclick="refreshInsights()">
-                            <span class="icon">⟳</span>
-                            <span>Atualizar insights</span>
-                        </button>
+                        <button class="primary-button" type="button" onclick="refreshInsights()"><span class="icon">⟳</span><span>Atualizar</span></button>
                         <span class="secondary-text" id="last-refresh"></span>
                     </div>
                 </div>
 
-                <!-- Linha de métricas -->
                 <div class="grid" style="margin-bottom: 1rem;">
                     <div class="card" style="grid-column: span 4;">
-                        <div class="card-header">
-                            <div class="card-title">Resumo geral</div>
-                            <div class="badge">/reports/summary</div>
-                        </div>
-
+                        <div class="card-header"><div class="card-header-left"><div class="card-title">Resumo geral</div></div></div>
                         <div class="metrics-row">
-                            <div class="metrics-col">
-                                <div class="metric-value" id="summary-artists">–</div>
-                                <div class="metric-label">Artistas únicos</div>
-                            </div>
-                            <div class="metrics-col">
-                                <div class="metric-value" id="summary-streams">–</div>
-                                <div class="metric-label">Total de streams</div>
-                            </div>
-                            <div class="metrics-col">
-                                <div class="metric-value" id="summary-uploads">–</div>
-                                <div class="metric-label">Uploads processados</div>
-                            </div>
+                            <div class="metrics-col"><div class="metric-value" id="summary-artists">–</div><div class="metric-label">Artistas</div></div>
+                            <div class="metrics-col"><div class="metric-value" id="summary-streams">–</div><div class="metric-label">Streams</div></div>
+                            <div class="metrics-col"><div class="metric-value" id="summary-uploads">–</div><div class="metric-label">Registros</div></div>
                         </div>
-
                         <div class="period-text" id="summary-period">Período: –</div>
+                        <div class="extra-summary">
+                            <div><span class="label">Artista destaque:</span> <span id="summary-top-artist">–</span></div>
+                            <div><span class="label">Plataforma líder:</span> <span id="summary-top-platform">–</span></div>
+                        </div>
                         <div class="status-text" id="summary-status"></div>
                         <div class="error-text hidden" id="summary-error"></div>
                     </div>
 
-                    <div class="card" style="grid-column: span 8;">
+                    <div class="card" style="grid-column: span 5;">
                         <div class="card-header">
-                            <div class="card-title">Top artistas por streams</div>
-                            <div class="badge">/reports/top-artists</div>
+                            <div class="card-header-left"><div class="card-title">Top artistas</div></div>
+                            <button class="export-button" onclick="exportTopArtists()"><span>📥</span> CSV</button>
                         </div>
-
-                        <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr); gap: 0.75rem; align-items: flex-start;">
-                            <div>
-                                <canvas id="chart-top-artists" height="120"></canvas>
-                            </div>
-                            <div class="table-wrapper">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Artista</th>
-                                            <th>Streams</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="top-artists-body">
-                                        <!-- linhas preenchidas via JS -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div style="display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0.5rem;">
+                            <div class="chart-container"><canvas id="chart-top-artists"></canvas></div>
+                            <div class="table-wrapper"><table><thead><tr><th>#</th><th>Artista</th><th>Streams</th></tr></thead><tbody id="top-artists-body"></tbody></table></div>
                         </div>
                         <div class="error-text hidden" id="top-artists-error"></div>
                     </div>
+
+                    <div class="card" style="grid-column: span 3;">
+                        <div class="card-header">
+                            <div class="card-header-left"><div class="card-title">📦 Distribuidoras</div></div>
+                            <button class="export-button" onclick="exportDistributors()"><span>📥</span> CSV</button>
+                        </div>
+                        <div class="chart-container-medium"><canvas id="chart-distributors"></canvas></div>
+                        <div class="table-wrapper" style="max-height: 100px;"><table><thead><tr><th>Dist.</th><th>Streams</th><th>%</th></tr></thead><tbody id="distributors-body"></tbody></table></div>
+                        <div class="error-text hidden" id="distributors-error"></div>
+                    </div>
                 </div>
 
-                <!-- Linha de plataformas -->
                 <div class="grid">
-                    <div class="card" style="grid-column: span 7;">
+                    <div class="card" style="grid-column: span 8;">
                         <div class="card-header">
-                            <div class="card-title">Streams por plataforma</div>
-                            <div class="badge">/reports/streams-by-platform</div>
+                            <div class="card-header-left"><div class="card-title">📈 Streams por plataforma</div></div>
+                            <button class="export-button" onclick="exportPlatforms()"><span>📥</span> Exportar CSV</button>
                         </div>
-                        <canvas id="chart-platforms" height="140"></canvas>
+                        <div class="filters-row">
+                            <div class="filter-group"><span class="filter-label">Distribuidora:</span><select id="filter-distributor" class="filter-select" onchange="applyFilters()"><option value="">Todas</option></select></div>
+                            <div class="filter-group"><span class="filter-label">De:</span><select id="filter-date-from" class="filter-select" onchange="applyFilters()"><option value="">Início</option></select></div>
+                            <div class="filter-group"><span class="filter-label">Até:</span><select id="filter-date-to" class="filter-select" onchange="applyFilters()"><option value="">Fim</option></select></div>
+                            <button class="secondary-button" onclick="clearFilters()"><span>✕</span> Limpar</button>
+                        </div>
+                        <div class="chart-container-large"><canvas id="chart-platforms"></canvas></div>
+                        <div class="status-text" id="platforms-status"></div>
                         <div class="error-text hidden" id="platforms-error"></div>
                     </div>
-
-                    <div class="card" style="grid-column: span 5;">
-                        <div class="card-header">
-                            <div class="card-title">Detalhe por plataforma</div>
-                            <div class="card-subtitle">
-                                Ranking simples para consulta rápida.
-                            </div>
-                        </div>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Plataforma</th>
-                                        <th>Streams</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="platforms-body">
-                                    <!-- preenchido via JS -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card" style="grid-column: span 4;">
+                        <div class="card-header"><div class="card-title">Totais por plataforma</div></div>
+                        <div class="table-wrapper" style="max-height: 320px;"><table><thead><tr><th>#</th><th>Plataforma</th><th>Total</th><th>%</th></tr></thead><tbody id="platforms-body"></tbody></table></div>
                     </div>
                 </div>
             </section>
@@ -547,72 +372,34 @@
             <!-- UPLOADS -->
             <section id="view-uploads" class="hidden">
                 <div class="content-header">
-                    <div>
-                        <div class="content-title">Uploads de arquivos</div>
-                        <div class="content-subtitle">
-                            Envie relatórios CSV por artista ou dispositivo para alimentar os insights.
-                        </div>
-                    </div>
+                    <div><div class="content-title">Uploads de arquivos</div><div class="content-subtitle">Envie relatórios CSV por artista ou dispositivo.</div></div>
                 </div>
-
                 <div class="grid">
                     <div class="card" style="grid-column: span 6;">
-                        <div class="card-header">
-                            <div class="card-title">Upload por artista</div>
-                            <div class="card-subtitle">Endpoint: /ingestions/upload/artist</div>
-                        </div>
+                        <div class="card-header"><div class="card-title">Upload por artista</div></div>
                         <form id="form-upload-artist">
                             <input type="file" id="file-artist" accept=".csv" />
-                            <div style="margin-top: 0.5rem;">
-                                <button class="primary-button" type="submit">
-                                    <span class="icon">⤴️</span>
-                                    <span>Enviar arquivo</span>
-                                </button>
-                            </div>
+                            <div style="margin-top: 0.5rem;"><button class="primary-button" type="submit"><span class="icon">⤴️</span><span>Enviar</span></button></div>
                             <div class="status-text" id="upload-artist-status"></div>
                             <div class="error-text hidden" id="upload-artist-error"></div>
                         </form>
                     </div>
-
                     <div class="card" style="grid-column: span 6;">
-                        <div class="card-header">
-                            <div class="card-title">Upload por dispositivo</div>
-                            <div class="card-subtitle">Endpoint: /ingestions/upload/device</div>
-                        </div>
+                        <div class="card-header"><div class="card-title">Upload por dispositivo</div></div>
                         <form id="form-upload-device">
-                            <input type="file" id="file-device" accept=".csv" />
-                            <div style="margin-top: 0.5rem;">
-                                <button class="primary-button" type="submit">
-                                    <span class="icon">⤴️</span>
-                                    <span>Enviar arquivo</span>
-                                </button>
+                            <div style="margin-bottom: 0.5rem;">
+                                <label class="form-label">Distribuidora</label>
+                                <select id="device-distributor" class="form-select"><option value="">Selecione...</option><option value="FUGA">FUGA</option><option value="VYDIA">VYDIA</option><option value="THE_ORCHARD">The Orchard</option></select>
                             </div>
+                            <input type="file" id="file-device" accept=".csv" />
+                            <div style="margin-top: 0.5rem;"><button class="primary-button" type="submit"><span class="icon">⤴️</span><span>Enviar</span></button></div>
                             <div class="status-text" id="upload-device-status"></div>
                             <div class="error-text hidden" id="upload-device-error"></div>
                         </form>
                     </div>
-
                     <div class="card" style="grid-column: span 12;">
-                        <div class="card-header">
-                            <div class="card-title">Histórico de uploads</div>
-                            <div class="card-subtitle">Lista simples vinda de /ingestions/</div>
-                        </div>
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fonte</th>
-                                        <th>Arquivo</th>
-                                        <th>Linhas</th>
-                                        <th>Data ingestão</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="uploads-body">
-                                    <!-- preenchido via JS -->
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="card-header"><div class="card-title">Histórico de uploads</div></div>
+                        <div class="table-wrapper"><table><thead><tr><th>ID</th><th>Fonte</th><th>Arquivo</th><th>Linhas</th><th>Data</th><th>Ações</th></tr></thead><tbody id="uploads-body"></tbody></table></div>
                         <div class="status-text" id="uploads-status"></div>
                         <div class="error-text hidden" id="uploads-error"></div>
                     </div>
@@ -620,366 +407,453 @@
             </section>
 
             <!-- CONECTORES -->
-            <section id="view-sources" class="hidden">
+            <section id="view-connectors" class="hidden">
                 <div class="content-header">
                     <div>
-                        <div class="content-title">Conectores</div>
-                        <div class="content-subtitle">
-                            Etapa futura: integração com FUGA, The Orchard, Vydia etc.
-                        </div>
+                        <div class="content-title">🔌 Configuração de Conectores de API</div>
+                        <div class="content-subtitle">Cadastre e gerencie integrações com distribuidoras (FUGA, Vydia, The Orchard, etc.)</div>
+                    </div>
+                    <div class="toolbar">
+                        <button class="success-button" onclick="openConnectorModal()"><span>+</span> Novo Conector</button>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-title">Em breve</div>
-                    <p class="secondary-text">
-                        Nesta versão, os conectores estão representados pelos uploads manuais de arquivos CSV.
-                        Integrações diretas com APIs poderão ser adicionadas nas próximas iterações.
-                    </p>
+
+                <div class="grid">
+                    <div class="card" style="grid-column: span 12;">
+                        <div class="card-header">
+                            <div class="card-header-left">
+                                <div class="card-title">Conectores Cadastrados</div>
+                                <div class="badge" id="connectors-count">0 conectores</div>
+                            </div>
+                            <button class="secondary-button" onclick="loadConnectors()"><span>⟳</span> Atualizar</button>
+                        </div>
+                        <div class="table-wrapper" style="max-height: 400px;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Nome</th>
+                                        <th>Tipo Auth</th>
+                                        <th>URL Base</th>
+                                        <th>Última Sync</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="connectors-body"></tbody>
+                            </table>
+                        </div>
+                        <div class="status-text" id="connectors-status"></div>
+                        <div class="error-text hidden" id="connectors-error"></div>
+                    </div>
+                </div>
+
+                <div class="grid" style="margin-top: 1rem;">
+                    <div class="card" style="grid-column: span 6;">
+                        <div class="card-title">📋 Sobre os Conectores</div>
+                        <p class="secondary-text" style="margin-top: 0.5rem;">
+                            Os conectores permitem integração direta com as APIs das distribuidoras para sincronização automática de dados de streaming.
+                            <br><br>
+                            <strong>Distribuidoras suportadas (planejado):</strong><br>
+                            • FUGA - API REST com OAuth 2.0<br>
+                            • Vydia - API REST com API Key<br>
+                            • The Orchard - API REST com Bearer Token<br>
+                            • Outras - Configuração personalizada
+                        </p>
+                    </div>
+                    <div class="card" style="grid-column: span 6;">
+                        <div class="card-title">🔐 Tipos de Autenticação</div>
+                        <p class="secondary-text" style="margin-top: 0.5rem;">
+                            <strong>API Key:</strong> Chave enviada no header ou query<br>
+                            <strong>Bearer Token:</strong> Token no header Authorization<br>
+                            <strong>Basic Auth:</strong> Usuário/senha codificados em Base64<br>
+                            <strong>OAuth 2.0:</strong> Fluxo completo com client_id/secret<br>
+                            <strong>Custom:</strong> Headers personalizados
+                        </p>
+                    </div>
                 </div>
             </section>
 
             <!-- USUÁRIOS -->
             <section id="view-users" class="hidden">
-                <div class="content-header">
-                    <div>
-                        <div class="content-title">Gestão de usuários</div>
-                        <div class="content-subtitle">
-                            Módulo de autenticação e perfis será implementado em uma próxima versão.
-                        </div>
-                    </div>
-                </div>
+                <div class="content-header"><div><div class="content-title">Gestão de usuários</div><div class="content-subtitle">Módulo em desenvolvimento.</div></div></div>
                 <div class="card">
                     <div class="card-title">Planejamento</div>
-                    <ul class="secondary-text">
-                        <li>Login com usuário e senha.</li>
-                        <li>Perfis Administrador / Visualização.</li>
-                        <li>Controle de acesso por rota (FastAPI + JWT ou similar).</li>
-                    </ul>
+                    <ul class="secondary-text"><li>Login com usuário e senha</li><li>Perfis Administrador / Visualização</li><li>Controle de acesso por rota</li></ul>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- MODAL DE CONECTOR -->
+    <div id="connector-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Novo Conector</div>
+                <button class="modal-close" onclick="closeConnectorModal()">&times;</button>
+            </div>
+            <form id="connector-form" onsubmit="saveConnector(event)">
+                <input type="hidden" id="connector-id" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nome da API *</label>
+                        <input type="text" id="conn-name" class="form-input" placeholder="Ex: FUGA, Vydia, The Orchard" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Autenticação *</label>
+                        <select id="conn-auth-type" class="form-select" required onchange="toggleAuthFields()">
+                            <option value="api_key">API Key</option>
+                            <option value="bearer_token">Bearer Token</option>
+                            <option value="basic_auth">Basic Auth</option>
+                            <option value="oauth2">OAuth 2.0</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">URL Base da API</label>
+                    <input type="url" id="conn-base-url" class="form-input" placeholder="https://api.exemplo.com/v1" />
+                    <div class="form-hint">Endpoint base para as requisições</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Descrição</label>
+                    <input type="text" id="conn-description" class="form-input" placeholder="Breve descrição do conector" />
+                </div>
+
+                <div id="auth-fields-apikey">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">API Key</label>
+                            <input type="text" id="conn-api-key" class="form-input" placeholder="Sua chave de API" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">API Secret</label>
+                            <input type="password" id="conn-api-secret" class="form-input" placeholder="Secret (se aplicável)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="auth-fields-oauth" class="hidden">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Client ID</label>
+                            <input type="text" id="conn-client-id" class="form-input" placeholder="OAuth Client ID" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Client Secret</label>
+                            <input type="password" id="conn-client-secret" class="form-input" placeholder="OAuth Client Secret" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Token URL</label>
+                        <input type="url" id="conn-token-url" class="form-input" placeholder="https://api.exemplo.com/oauth/token" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Headers Adicionais (JSON)</label>
+                    <textarea id="conn-headers" class="form-textarea" placeholder='{"X-Custom-Header": "value"}'></textarea>
+                    <div class="form-hint">Headers extras em formato JSON</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Observações</label>
+                    <textarea id="conn-notes" class="form-textarea" placeholder="Notas internas sobre este conector"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="conn-active" checked />
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="form-label" style="margin: 0;">Conector Ativo</span>
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-button" onclick="closeConnectorModal()">Cancelar</button>
+                    <button type="submit" class="primary-button">💾 Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // --- Navegação entre seções ---
+        // === NAVEGAÇÃO ===
         function showView(view) {
-            const allViews = ["insights", "uploads", "sources", "users"];
-            allViews.forEach(v => {
-                const section = document.getElementById("view-" + v);
-                const navButton = document.getElementById("nav-" + v);
-                if (v === view) {
-                    section.classList.remove("hidden");
-                    navButton.classList.add("active");
-                } else {
-                    section.classList.add("hidden");
-                    navButton.classList.remove("active");
-                }
+            ["insights", "uploads", "connectors", "users"].forEach(v => {
+                document.getElementById("view-" + v).classList.toggle("hidden", v !== view);
+                document.getElementById("nav-" + v).classList.toggle("active", v === view);
             });
+            if (view === "connectors") loadConnectors();
         }
 
-        // --- Helpers para formatar números e datas ---
-        function formatNumber(n) {
-            if (n == null || isNaN(n)) return "0";
-            return n.toLocaleString("pt-BR");
+        // === HELPERS ===
+        function formatNumber(n) { return (n == null || isNaN(n)) ? "0" : n.toLocaleString("pt-BR"); }
+        function formatDate(iso) { if (!iso) return "–"; const d = new Date(iso); return isNaN(d.getTime()) ? iso : d.toLocaleDateString("pt-BR"); }
+        function sortDatesAscending(dates) { return [...dates].sort((a, b) => { const na = parseInt(a, 10), nb = parseInt(b, 10); return (!isNaN(na) && !isNaN(nb)) ? na - nb : a.localeCompare(b); }); }
+
+        // === LOADING HELPERS ===
+        function showLoading(elementId, message = "Carregando...") {
+            const el = document.getElementById(elementId);
+            if (el) el.innerHTML = `<span class="spinner"></span> ${message}`;
+        }
+        function hideLoading(elementId, message = "") {
+            const el = document.getElementById(elementId);
+            if (el) el.textContent = message;
+        }
+        function showCardLoading(cardSelector) {
+            const card = document.querySelector(cardSelector);
+            if (card && !card.querySelector('.loading-overlay')) {
+                card.classList.add('card-loading');
+                const overlay = document.createElement('div');
+                overlay.className = 'loading-overlay';
+                overlay.innerHTML = '<span class="spinner spinner-large"></span>';
+                card.appendChild(overlay);
+            }
+        }
+        function hideCardLoading(cardSelector) {
+            const card = document.querySelector(cardSelector);
+            if (card) {
+                card.classList.remove('card-loading');
+                const overlay = card.querySelector('.loading-overlay');
+                if (overlay) overlay.remove();
+            }
         }
 
-        function formatDate(iso) {
-            if (!iso) return "–";
-            const d = new Date(iso);
-            if (isNaN(d.getTime())) return iso;
-            return d.toLocaleDateString("pt-BR");
+        // === GRÁFICOS ===
+        let chartTopArtists = null, chartPlatforms = null, chartDistributors = null;
+        let availableDistributors = [], availableDates = [];
+
+        const PLATFORM_COLORS = [
+            { bg: 'rgba(37, 99, 235, 0.2)', border: 'rgba(37, 99, 235, 1)' },
+            { bg: 'rgba(16, 185, 129, 0.2)', border: 'rgba(16, 185, 129, 1)' },
+            { bg: 'rgba(245, 158, 11, 0.2)', border: 'rgba(245, 158, 11, 1)' },
+            { bg: 'rgba(239, 68, 68, 0.2)', border: 'rgba(239, 68, 68, 1)' },
+            { bg: 'rgba(139, 92, 246, 0.2)', border: 'rgba(139, 92, 246, 1)' },
+            { bg: 'rgba(236, 72, 153, 0.2)', border: 'rgba(236, 72, 153, 1)' },
+            { bg: 'rgba(6, 182, 212, 0.2)', border: 'rgba(6, 182, 212, 1)' },
+            { bg: 'rgba(249, 115, 22, 0.2)', border: 'rgba(249, 115, 22, 1)' },
+        ];
+
+        const DISTRIBUTOR_COLORS = {
+            'FUGA': { bg: 'rgba(37, 99, 235, 0.7)', border: 'rgba(37, 99, 235, 1)' },
+            'VYDIA': { bg: 'rgba(16, 185, 129, 0.7)', border: 'rgba(16, 185, 129, 1)' },
+            'THE_ORCHARD': { bg: 'rgba(249, 115, 22, 0.7)', border: 'rgba(249, 115, 22, 1)' },
+            'default': { bg: 'rgba(107, 114, 128, 0.7)', border: 'rgba(107, 114, 128, 1)' }
+        };
+
+        // === EXPORTS ===
+        function exportPlatforms() {
+            const params = new URLSearchParams();
+            const d = document.getElementById("filter-distributor").value;
+            const df = document.getElementById("filter-date-from").value;
+            const dt = document.getElementById("filter-date-to").value;
+            if (d) params.append("distributor", d);
+            if (df) params.append("date_from", df);
+            if (dt) params.append("date_to", dt);
+            window.location.href = "/reports/export/platforms-csv" + (params.toString() ? "?" + params.toString() : "");
         }
+        function exportDistributors() { window.location.href = "/reports/export/distributors-csv"; }
+        function exportTopArtists() { window.location.href = "/reports/export/top-artists-csv?limit=100"; }
 
-        // --- Variáveis para gráficos ---
-        let chartTopArtists = null;
-        let chartPlatforms = null;
+        // === FILTROS ===
+        async function loadFilterOptions() {
+            try {
+                const dr = await fetch("/reports/distributors"); if (dr.ok) { availableDistributors = await dr.json(); const ds = document.getElementById("filter-distributor"); ds.innerHTML = '<option value="">Todas</option>'; availableDistributors.forEach(d => ds.innerHTML += `<option value="${d}">${d}</option>`); }
+                const dtr = await fetch("/reports/date-range"); if (dtr.ok) { const dd = await dtr.json(); availableDates = sortDatesAscending(dd.all_dates || []); const fs = document.getElementById("filter-date-from"), ts = document.getElementById("filter-date-to"); fs.innerHTML = '<option value="">Início</option>'; ts.innerHTML = '<option value="">Fim</option>'; availableDates.forEach(d => { fs.innerHTML += `<option value="${d}">${d}</option>`; ts.innerHTML += `<option value="${d}">${d}</option>`; }); }
+            } catch (e) { console.error(e); }
+        }
+        function applyFilters() { loadPlatforms(); }
+        function clearFilters() { document.getElementById("filter-distributor").value = ""; document.getElementById("filter-date-from").value = ""; document.getElementById("filter-date-to").value = ""; loadPlatforms(); }
 
-        // --- Carregar resumo (/reports/summary) ---
+        // === DADOS ===
         async function loadSummary() {
-            const statusEl = document.getElementById("summary-status");
-            const errorEl = document.getElementById("summary-error");
-            errorEl.classList.add("hidden");
-            errorEl.textContent = "";
-
-            try {
-                statusEl.textContent = "Carregando resumo...";
-                const resp = await fetch("/reports/summary");
-                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
-                const data = await resp.json();
-
-                document.getElementById("summary-artists").textContent = formatNumber(data.total_artists ?? 0);
-                document.getElementById("summary-streams").textContent = formatNumber(data.total_streams ?? 0);
-                document.getElementById("summary-uploads").textContent = formatNumber(data.total_uploads ?? 0);
-
-                const periodText = (data.period_start && data.period_end)
-                    ? `Período: ${formatDate(data.period_start)} a ${formatDate(data.period_end)}`
-                    : "Período: baseado nos dados carregados";
-
-                document.getElementById("summary-period").textContent = periodText;
-                statusEl.textContent = "Resumo carregado com sucesso.";
-            } catch (err) {
-                console.error(err);
-                statusEl.textContent = "";
-                errorEl.textContent = "Erro ao carregar insights. Verifique o backend.";
-                errorEl.classList.remove("hidden");
-            }
+            const st = document.getElementById("summary-status"), er = document.getElementById("summary-error"); er.classList.add("hidden");
+            try { showLoading("summary-status", "Carregando resumo..."); const r = await fetch("/reports/summary"); if (!r.ok) throw new Error(); const d = await r.json();
+                document.getElementById("summary-artists").textContent = formatNumber(d.total_artists ?? 0);
+                document.getElementById("summary-streams").textContent = formatNumber(d.total_streams ?? 0);
+                document.getElementById("summary-uploads").textContent = formatNumber(d.total_tracks ?? 0);
+                document.getElementById("summary-period").textContent = (d.first_date && d.last_date) ? `Período: ${formatDate(d.first_date)} a ${formatDate(d.last_date)}` : "Período: –";
+                hideLoading("summary-status");
+            } catch (e) { hideLoading("summary-status"); er.textContent = "Erro ao carregar."; er.classList.remove("hidden"); }
         }
 
-        // --- Carregar top artistas (/reports/top-artists) ---
         async function loadTopArtists() {
-            const errorEl = document.getElementById("top-artists-error");
-            errorEl.classList.add("hidden");
-            errorEl.textContent = "";
-
-            try {
-                const resp = await fetch("/reports/top-artists");
-                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
-                const data = await resp.json();
-
-                const tbody = document.getElementById("top-artists-body");
-                tbody.innerHTML = "";
-
-                const labels = [];
-                const values = [];
-
-                data.forEach((row, index) => {
-                    const tr = document.createElement("tr");
-                    const tdIndex = document.createElement("td");
-                    const tdArtist = document.createElement("td");
-                    const tdStreams = document.createElement("td");
-
-                    tdIndex.textContent = index + 1;
-                    tdArtist.textContent = row.artist_name ?? "-";
-                    tdStreams.textContent = formatNumber(row.total_streams ?? 0);
-
-                    tr.appendChild(tdIndex);
-                    tr.appendChild(tdArtist);
-                    tr.appendChild(tdStreams);
-                    tbody.appendChild(tr);
-
-                    labels.push(row.artist_name ?? "-");
-                    values.push(row.total_streams ?? 0);
-                });
-
-                // Atualizar gráfico
-                const ctx = document.getElementById("chart-top-artists").getContext("2d");
-                if (chartTopArtists) chartTopArtists.destroy();
-                chartTopArtists = new Chart(ctx, {
-                    type: "bar",
-                    data: {
-                        labels,
-                        datasets: [{
-                            label: "Streams",
-                            data: values,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { font: { size: 10 } }
-                            },
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-                errorEl.textContent = "Erro ao carregar top artistas. Verifique o backend.";
-                errorEl.classList.remove("hidden");
-            }
+            const er = document.getElementById("top-artists-error"); er.classList.add("hidden");
+            try { const r = await fetch("/reports/top-artists"); if (!r.ok) throw new Error(); const d = await r.json();
+                const tb = document.getElementById("top-artists-body"); tb.innerHTML = ""; const lbs = [], vls = [];
+                d.forEach((row, i) => { tb.innerHTML += `<tr><td>${i+1}</td><td>${row.artist_name ?? "-"}</td><td>${formatNumber(row.total_streams ?? 0)}</td></tr>`; lbs.push(row.artist_name ?? "-"); vls.push(row.total_streams ?? 0); });
+                document.getElementById("summary-top-artist").textContent = d.length > 0 ? d[0].artist_name : "–";
+                const ctx = document.getElementById("chart-top-artists").getContext("2d"); if (chartTopArtists) chartTopArtists.destroy();
+                chartTopArtists = new Chart(ctx, { type: "bar", data: { labels: lbs, datasets: [{ label: "Streams", data: vls, borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: "y", plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => " " + formatNumber(c.parsed.x || 0) } } }, scales: { x: { beginAtZero: true, ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } } } });
+            } catch (e) { er.textContent = "Erro ao carregar."; er.classList.remove("hidden"); }
         }
 
-        // --- Carregar streams por plataforma (/reports/streams-by-platform) ---
+        async function loadDistributors() {
+            const er = document.getElementById("distributors-error"); er.classList.add("hidden");
+            try { const r = await fetch("/reports/streams-by-distributor"); if (!r.ok) throw new Error(); const d = await r.json();
+                const tb = document.getElementById("distributors-body"); tb.innerHTML = ""; if (!d || !d.length) { tb.innerHTML = "<tr><td colspan='3'>Sem dados</td></tr>"; return; }
+                const lbs = [], vls = [], bgs = [], bds = [], gt = d.reduce((s, x) => s + (x.total_streams || 0), 0);
+                d.forEach(row => { const dist = row.distributor || "Outros", st = row.total_streams || 0, pct = gt > 0 ? ((st/gt)*100).toFixed(1) : "0.0"; tb.innerHTML += `<tr><td><strong>${dist}</strong></td><td>${formatNumber(st)}</td><td>${pct}%</td></tr>`; lbs.push(dist); vls.push(st); const c = DISTRIBUTOR_COLORS[dist] || DISTRIBUTOR_COLORS['default']; bgs.push(c.bg); bds.push(c.border); });
+                const ctx = document.getElementById("chart-distributors").getContext("2d"); if (chartDistributors) chartDistributors.destroy();
+                chartDistributors = new Chart(ctx, { type: "bar", data: { labels: lbs, datasets: [{ label: "Streams", data: vls, backgroundColor: bgs, borderColor: bds, borderWidth: 1 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` ${formatNumber(c.parsed.y)} (${gt > 0 ? ((c.parsed.y/gt)*100).toFixed(1) : 0}%)` } } }, scales: { x: { ticks: { font: { size: 10 } } }, y: { beginAtZero: true, ticks: { font: { size: 10 }, callback: (v) => formatNumber(v) } } } } });
+            } catch (e) { er.textContent = "Erro ao carregar."; er.classList.remove("hidden"); }
+        }
+
         async function loadPlatforms() {
-            const errorEl = document.getElementById("platforms-error");
-            errorEl.classList.add("hidden");
-            errorEl.textContent = "";
-
+            const er = document.getElementById("platforms-error"), st = document.getElementById("platforms-status"); er.classList.add("hidden"); showLoading("platforms-status", "Carregando gráfico...");
             try {
-                const resp = await fetch("/reports/streams-by-platform");
-                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
-                const data = await resp.json();
-
-                const tbody = document.getElementById("platforms-body");
-                tbody.innerHTML = "";
-
-                const labels = [];
-                const values = [];
-
-                data.forEach((row, index) => {
-                    const tr = document.createElement("tr");
-                    const tdIndex = document.createElement("td");
-                    const tdService = document.createElement("td");
-                    const tdStreams = document.createElement("td");
-
-                    tdIndex.textContent = index + 1;
-                    tdService.textContent = row.service ?? "-";
-                    tdStreams.textContent = formatNumber(row.total_streams ?? 0);
-
-                    tr.appendChild(tdIndex);
-                    tr.appendChild(tdService);
-                    tr.appendChild(tdStreams);
-                    tbody.appendChild(tr);
-
-                    labels.push(row.service ?? "-");
-                    values.push(row.total_streams ?? 0);
-                });
-
-                const ctx = document.getElementById("chart-platforms").getContext("2d");
-                if (chartPlatforms) chartPlatforms.destroy();
-                chartPlatforms = new Chart(ctx, {
-                    type: "doughnut",
-                    data: {
-                        labels,
-                        datasets: [{
-                            label: "Streams por plataforma",
-                            data: values
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: "right"
-                            }
-                        }
-                    }
-                });
-            } catch (err) {
-                console.error(err);
-                errorEl.textContent = "Erro ao carregar streams por plataforma. Verifique o backend.";
-                errorEl.classList.remove("hidden");
-            }
+                const p = new URLSearchParams(); const d = document.getElementById("filter-distributor").value, df = document.getElementById("filter-date-from").value, dt = document.getElementById("filter-date-to").value;
+                if (d) p.append("distributor", d); if (df) p.append("date_from", df); if (dt) p.append("date_to", dt);
+                const r = await fetch("/reports/streams-by-platform" + (p.toString() ? "?" + p.toString() : "")); if (!r.ok) throw new Error(); const data = await r.json();
+                const tb = document.getElementById("platforms-body"); tb.innerHTML = "";
+                if (!data || !data.length) { st.textContent = "Nenhum dado."; if (chartPlatforms) chartPlatforms.destroy(); chartPlatforms = null; document.getElementById("summary-top-platform").textContent = "–"; return; }
+                const allDates = sortDatesAscending([...new Set(data.flatMap(p => p.points.map(x => x.date)))]);
+                const totals = data.map(p => ({ platform: p.platform, total: p.points.reduce((s, x) => s + (x.streams || 0), 0) })).sort((a, b) => b.total - a.total);
+                const gt = totals.reduce((s, p) => s + p.total, 0);
+                totals.forEach((item, i) => { const pct = gt > 0 ? ((item.total/gt)*100).toFixed(1) : "0.0"; tb.innerHTML += `<tr><td>${i+1}</td><td>${item.platform}</td><td>${formatNumber(item.total)}</td><td>${pct}%</td></tr>`; });
+                document.getElementById("summary-top-platform").textContent = totals.length > 0 ? totals[0].platform : "–";
+                const datasets = data.map((plat, idx) => { const c = PLATFORM_COLORS[idx % PLATFORM_COLORS.length]; const pm = {}; plat.points.forEach(p => pm[p.date] = p.streams); return { label: plat.platform, data: allDates.map(dt => pm[dt] ?? 0), borderColor: c.border, backgroundColor: c.bg, fill: false, tension: 0.3, pointRadius: 3, borderWidth: 2 }; });
+                const ctx = document.getElementById("chart-platforms").getContext("2d"); if (chartPlatforms) chartPlatforms.destroy();
+                chartPlatforms = new Chart(ctx, { type: "line", data: { labels: allDates, datasets }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: "top", labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { label: (c) => ` ${c.dataset.label}: ${formatNumber(c.parsed.y)}` } } }, scales: { x: { title: { display: true, text: 'Dia', font: { size: 11 } }, ticks: { font: { size: 10 }, maxRotation: 45 } }, y: { beginAtZero: true, title: { display: true, text: 'Streams', font: { size: 11 } }, ticks: { font: { size: 10 }, callback: (v) => formatNumber(v) } } } } });
+                let fi = []; if (d) fi.push(`Dist: ${d}`); if (df) fi.push(`De: ${df}`); if (dt) fi.push(`Até: ${dt}`);
+                st.textContent = `${data.length} plataforma(s) · ${allDates.length} dia(s)${fi.length ? " | " + fi.join(", ") : ""}`;
+            } catch (e) { st.textContent = ""; er.textContent = "Erro ao carregar."; er.classList.remove("hidden"); }
         }
 
-        // --- Histórico de uploads (/ingestions/) ---
+        // === UPLOADS ===
         async function loadUploads() {
-            const statusEl = document.getElementById("uploads-status");
-            const errorEl = document.getElementById("uploads-error");
-            statusEl.textContent = "Carregando histórico de uploads...";
-            errorEl.classList.add("hidden");
-            errorEl.textContent = "";
-
-            try {
-                const resp = await fetch("/ingestions/");
-                if (!resp.ok) throw new Error("Erro HTTP " + resp.status);
-                const data = await resp.json();
-
-                const tbody = document.getElementById("uploads-body");
-                tbody.innerHTML = "";
-
-                data.forEach(row => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${row.id}</td>
-                        <td>${row.source_id ?? ""}</td>
-                        <td>${row.file_name ?? ""}</td>
-                        <td>${formatNumber(row.total_rows ?? 0)}</td>
-                        <td>${row.ingested_at ? row.ingested_at.replace("T", " ").substring(0, 19) : ""}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                statusEl.textContent = data.length
-                    ? `Exibindo ${data.length} upload(s) registrados.`
-                    : "Nenhum upload registrado até o momento.";
-            } catch (err) {
-                console.error(err);
-                statusEl.textContent = "";
-                errorEl.textContent = "Erro ao carregar histórico de uploads.";
-                errorEl.classList.remove("hidden");
-            }
+            const st = document.getElementById("uploads-status"), er = document.getElementById("uploads-error"); showLoading("uploads-status", "Carregando histórico..."); er.classList.add("hidden");
+            try { const r = await fetch("/ingestions/"); if (!r.ok) throw new Error(); const d = await r.json(); const tb = document.getElementById("uploads-body"); tb.innerHTML = "";
+                d.forEach(row => { tb.innerHTML += `<tr><td>${row.id}</td><td>${row.source_id === 1 ? 'Artistas' : row.source_id === 2 ? 'Dispositivos' : row.source_id}</td><td>${row.file_name ?? ""}</td><td>${formatNumber(row.total_rows ?? 0)}</td><td>${row.ingested_at ? row.ingested_at.replace("T", " ").substring(0, 19) : ""}</td><td><button class="danger-button" onclick="deleteUpload(${row.id}, '${(row.file_name ?? '').replace(/'/g, "\\'")}')">🗑️</button></td></tr>`; });
+                hideLoading("uploads-status", d.length ? `${d.length} upload(s)` : "Nenhum upload.");
+            } catch (e) { hideLoading("uploads-status"); er.textContent = "Erro."; er.classList.remove("hidden"); }
         }
 
-        // --- Upload por artista ---
-        async function handleUpload(endpoint, fileInputId, statusId, errorId) {
-            const fileInput = document.getElementById(fileInputId);
-            const statusEl = document.getElementById(statusId);
-            const errorEl = document.getElementById(errorId);
-
-            errorEl.classList.add("hidden");
-            errorEl.textContent = "";
-
-            if (!fileInput.files.length) {
-                errorEl.textContent = "Selecione um arquivo CSV antes de enviar.";
-                errorEl.classList.remove("hidden");
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
-
+        async function deleteUpload(id, fileName) {
+            if (!confirm(`⚠️ Deseja realmente excluir o upload "${fileName}"?\n\nIsso irá remover todos os dados de streaming associados a este arquivo.`)) return;
             try {
-                statusEl.textContent = "Enviando arquivo...";
-                const resp = await fetch(endpoint, {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (!resp.ok) {
-                    throw new Error("Erro HTTP " + resp.status);
-                }
-
-                const data = await resp.json();
-                statusEl.textContent = `Upload concluído. Registros processados: ${data.total_rows ?? "?"}.`;
-                fileInput.value = "";
-                // Recarrega histórico e insights após upload
+                showLoading("uploads-status", "Excluindo...");
+                const r = await fetch(`/ingestions/${id}`, { method: "DELETE" });
+                if (!r.ok) throw new Error();
                 await loadUploads();
+                await loadFilterOptions();
                 await refreshInsights();
-            } catch (err) {
-                console.error(err);
-                statusEl.textContent = "";
-                errorEl.textContent = "Erro ao enviar o arquivo (HTTP 500).";
-                errorEl.classList.remove("hidden");
+            } catch (e) {
+                alert("Erro ao excluir upload.");
+                hideLoading("uploads-status");
             }
         }
 
-        document.getElementById("form-upload-artist").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            await handleUpload(
-                "/ingestions/upload/artist",
-                "file-artist",
-                "upload-artist-status",
-                "upload-artist-error"
-            );
-        });
+        document.getElementById("form-upload-artist").addEventListener("submit", async (e) => { e.preventDefault(); const fi = document.getElementById("file-artist"), st = document.getElementById("upload-artist-status"), er = document.getElementById("upload-artist-error"); er.classList.add("hidden"); if (!fi.files.length) { er.textContent = "Selecione um arquivo."; er.classList.remove("hidden"); return; } const fd = new FormData(); fd.append("file", fi.files[0]); try { showLoading("upload-artist-status", "Enviando..."); const r = await fetch("/ingestions/upload/artist", { method: "POST", body: fd }); if (!r.ok) throw new Error(); const d = await r.json(); hideLoading("upload-artist-status", `✅ OK! ${d.rows_inserted ?? "?"} registros.`); fi.value = ""; await loadUploads(); await loadFilterOptions(); await refreshInsights(); } catch (e) { hideLoading("upload-artist-status"); er.textContent = "Erro."; er.classList.remove("hidden"); } });
 
-        document.getElementById("form-upload-device").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            await handleUpload(
-                "/ingestions/upload/device",
-                "file-device",
-                "upload-device-status",
-                "upload-device-error"
-            );
-        });
+        document.getElementById("form-upload-device").addEventListener("submit", async (e) => { e.preventDefault(); const fi = document.getElementById("file-device"), ds = document.getElementById("device-distributor"), st = document.getElementById("upload-device-status"), er = document.getElementById("upload-device-error"); er.classList.add("hidden"); if (!ds.value) { er.textContent = "Selecione distribuidora."; er.classList.remove("hidden"); return; } if (!fi.files.length) { er.textContent = "Selecione arquivo."; er.classList.remove("hidden"); return; } const fd = new FormData(); fd.append("file", fi.files[0]); fd.append("distributor", ds.value); try { showLoading("upload-device-status", "Enviando..."); const r = await fetch("/ingestions/upload/device", { method: "POST", body: fd }); if (!r.ok) throw new Error(); const d = await r.json(); hideLoading("upload-device-status", `✅ OK! ${d.total_points ?? "?"} pontos.`); fi.value = ""; ds.value = ""; await loadUploads(); await loadFilterOptions(); await refreshInsights(); } catch (e) { hideLoading("upload-device-status"); er.textContent = "Erro."; er.classList.remove("hidden"); } });
 
-        // --- Atualizar todos os insights ---
-        async function refreshInsights() {
-            await Promise.all([
-                loadSummary(),
-                loadTopArtists(),
-                loadPlatforms()
-            ]);
-
-            const now = new Date();
-            document.getElementById("last-refresh").textContent =
-                "Atualizado em " + now.toLocaleTimeString("pt-BR");
+        // === CONECTORES ===
+        async function loadConnectors() {
+            const st = document.getElementById("connectors-status"), er = document.getElementById("connectors-error"); showLoading("connectors-status", "Carregando conectores..."); er.classList.add("hidden");
+            try {
+                const r = await fetch("/connectors/"); if (!r.ok) throw new Error(); const d = await r.json();
+                const tb = document.getElementById("connectors-body"); tb.innerHTML = "";
+                document.getElementById("connectors-count").textContent = `${d.length} conector(es)`;
+                if (!d.length) { tb.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">Nenhum conector cadastrado. Clique em "Novo Conector" para começar.</td></tr>`; st.textContent = ""; return; }
+                d.forEach(c => {
+                    const statusBadge = c.is_active ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>';
+                    const authLabel = { api_key: 'API Key', bearer_token: 'Bearer', basic_auth: 'Basic', oauth2: 'OAuth 2.0', custom: 'Custom' }[c.auth_type] || c.auth_type;
+                    const lastSync = c.last_sync_at ? formatDate(c.last_sync_at) : '<span class="badge badge-warning">Nunca</span>';
+                    tb.innerHTML += `<tr>
+                        <td>${statusBadge}</td>
+                        <td><strong>${c.name}</strong>${c.description ? '<br><small style="color: var(--text-muted);">' + c.description + '</small>' : ''}</td>
+                        <td>${authLabel}</td>
+                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.base_url || '–'}</td>
+                        <td>${lastSync}</td>
+                        <td>
+                            <button class="secondary-button" onclick="editConnector(${c.id})" style="margin-right: 0.25rem;">✏️</button>
+                            <button class="danger-button" onclick="deleteConnector(${c.id}, '${c.name.replace(/'/g, "\\'")}')">🗑️</button>
+                        </td>
+                    </tr>`;
+                });
+                hideLoading("connectors-status");
+            } catch (e) { console.error(e); hideLoading("connectors-status"); er.textContent = "Erro ao carregar conectores."; er.classList.remove("hidden"); }
         }
 
-        // --- Inicialização ---
-        window.addEventListener("DOMContentLoaded", async () => {
-            showView("insights");
-            await refreshInsights();
-            await loadUploads();
-        });
+        function openConnectorModal(id = null) {
+            document.getElementById("connector-modal").classList.remove("hidden");
+            document.getElementById("modal-title").textContent = id ? "Editar Conector" : "Novo Conector";
+            document.getElementById("connector-id").value = id || "";
+            if (!id) { document.getElementById("connector-form").reset(); document.getElementById("conn-active").checked = true; }
+            toggleAuthFields();
+        }
+
+        function closeConnectorModal() { document.getElementById("connector-modal").classList.add("hidden"); }
+
+        function toggleAuthFields() {
+            const authType = document.getElementById("conn-auth-type").value;
+            document.getElementById("auth-fields-apikey").classList.toggle("hidden", authType === "oauth2");
+            document.getElementById("auth-fields-oauth").classList.toggle("hidden", authType !== "oauth2");
+        }
+
+        async function editConnector(id) {
+            try {
+                const r = await fetch(`/connectors/${id}`); if (!r.ok) throw new Error(); const c = await r.json();
+                openConnectorModal(id);
+                document.getElementById("conn-name").value = c.name || "";
+                document.getElementById("conn-auth-type").value = c.auth_type || "api_key";
+                document.getElementById("conn-base-url").value = c.base_url || "";
+                document.getElementById("conn-description").value = c.description || "";
+                document.getElementById("conn-api-key").value = c.api_key || "";
+                document.getElementById("conn-api-secret").value = c.api_secret || "";
+                document.getElementById("conn-client-id").value = c.client_id || "";
+                document.getElementById("conn-client-secret").value = c.client_secret || "";
+                document.getElementById("conn-token-url").value = c.token_url || "";
+                document.getElementById("conn-headers").value = c.additional_headers || "";
+                document.getElementById("conn-notes").value = c.notes || "";
+                document.getElementById("conn-active").checked = c.is_active;
+                toggleAuthFields();
+            } catch (e) { alert("Erro ao carregar conector."); }
+        }
+
+        async function saveConnector(event) {
+            event.preventDefault();
+            const id = document.getElementById("connector-id").value;
+            const data = {
+                name: document.getElementById("conn-name").value,
+                auth_type: document.getElementById("conn-auth-type").value,
+                base_url: document.getElementById("conn-base-url").value || null,
+                description: document.getElementById("conn-description").value || null,
+                api_key: document.getElementById("conn-api-key").value || null,
+                api_secret: document.getElementById("conn-api-secret").value || null,
+                client_id: document.getElementById("conn-client-id").value || null,
+                client_secret: document.getElementById("conn-client-secret").value || null,
+                token_url: document.getElementById("conn-token-url").value || null,
+                additional_headers: document.getElementById("conn-headers").value || null,
+                notes: document.getElementById("conn-notes").value || null,
+                is_active: document.getElementById("conn-active").checked
+            };
+            try {
+                const url = id ? `/connectors/${id}` : "/connectors/";
+                const method = id ? "PUT" : "POST";
+                const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+                if (!r.ok) throw new Error();
+                closeConnectorModal();
+                loadConnectors();
+            } catch (e) { alert("Erro ao salvar conector."); }
+        }
+
+        async function deleteConnector(id, name) {
+            if (!confirm(`Deseja realmente excluir o conector "${name}"?`)) return;
+            try { const r = await fetch(`/connectors/${id}`, { method: "DELETE" }); if (!r.ok) throw new Error(); loadConnectors(); } catch (e) { alert("Erro ao excluir."); }
+        }
+
+        // === REFRESH ===
+        async function refreshInsights() { await Promise.all([loadSummary(), loadTopArtists(), loadDistributors(), loadPlatforms()]); document.getElementById("last-refresh").textContent = "Atualizado " + new Date().toLocaleTimeString("pt-BR"); }
+
+        // === INIT ===
+        window.addEventListener("DOMContentLoaded", async () => { showView("insights"); await loadFilterOptions(); await refreshInsights(); await loadUploads(); });
     </script>
 </body>
 </html>
