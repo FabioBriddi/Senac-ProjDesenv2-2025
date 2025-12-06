@@ -67,9 +67,15 @@ Permite:
 - visualização de métricas resumidas;
 - exibição de gráficos e tabelas.
 
+**Tela Principal / Insights**  
+
 ![Insights](./img_git/insights2.png)
 
+**Uploads**  
+
 ![Uploads](./img_git/uploads2.png)
+
+**Conectores**  
 
 ![Conectoes](./img_git/conectores.png)
 
