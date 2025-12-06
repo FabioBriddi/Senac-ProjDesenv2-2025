@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>BRD Hub - Diagrama E-R</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+            padding: 2rem;
+        }
+        h1 {
+            color: #1e40af;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .diagram-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .legend {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #374151;
+        }
+        .legend ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        .legend li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }
+        .table-name {
+            font-weight: 600;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 BRD Hub - Diagrama E-R</h1>
+    <p class="subtitle">Modelo de dados do sistema de analytics de streaming musical</p>
+    
+    <div class="diagram-container">
+        <pre class="mermaid">
+erDiagram
+    sources {
+        INTEGER id PK
+        TEXT name
+        TEXT type
+        TEXT description
+        INTEGER is_active
+    }
+
+    ingestions {
+        INTEGER id PK
+        INTEGER source_id FK
+        TEXT file_name
+        TEXT ingested_at
+        INTEGER total_rows
+    }
+
+    stream_events {
+        INTEGER id PK
+        INTEGER ingestion_id FK
+        TEXT artist_name
+        TEXT track_title
+        TEXT isrc
+        TEXT upc
+        TEXT service
+        TEXT country
+        TEXT stream_date
+        INTEGER streams
+    }
+
+    device_daily_streams {
+        INTEGER id PK
+        INTEGER ingestion_id FK
+        TEXT distributor
+        TEXT device_name
+        TEXT day_label
+        INTEGER streams
+    }
+
+    api_connectors {
+        INTEGER id PK
+        TEXT name
+        TEXT description
+        TEXT base_url
+        TEXT auth_type
+        TEXT api_key
+        TEXT api_secret
+        TEXT client_id
+        TEXT client_secret
+        TEXT token_url
+        TEXT additional_headers
+        INTEGER is_active
+        TEXT last_sync_at
+        TEXT created_at
+        TEXT updated_at
+        TEXT notes
+    }
+
+    sources ||--o{ ingestions : "possui"
+    ingestions ||--o{ stream_events : "gera"
+    ingestions ||--o{ device_daily_streams : "gera"
+        </pre>
+
+        <div class="legend">
+            <h3>📋 Descrição das Tabelas</h3>
+            <ul>
+                <li><span class="table-name">sources</span> - Fontes de dados (CSV artistas, CSV dispositivos)</li>
+                <li><span class="table-name">ingestions</span> - Registro de cada upload/importação de arquivo</li>
+                <li><span class="table-name">stream_events</span> - Dados de streaming por artista/faixa (granularidade fina)</li>
+                <li><span class="table-name">device_daily_streams</span> - Dados agregados por dispositivo/dia/distribuidora</li>
+                <li><span class="table-name">api_connectors</span> - Configuração de conectores de API (FUGA, Vydia, The Orchard)</li>
+            </ul>
+            
+            <h3 style="margin-top: 1rem;">🔗 Relacionamentos</h3>
+            <ul>
+                <li><strong>sources → ingestions</strong>: Uma fonte pode ter múltiplas ingestões (1:N)</li>
+                <li><strong>ingestions → stream_events</strong>: Uma ingestão gera múltiplos eventos (1:N)</li>
+                <li><strong>ingestions → device_daily_streams</strong>: Uma ingestão gera múltiplos registros diários (1:N)</li>
+                <li><strong>api_connectors</strong>: Tabela independente para configuração futura de integrações</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                layoutDirection: 'TB',
+                minEntityWidth: 100,
+                minEntityHeight: 75,
+                entityPadding: 15
+            }
+        });
+    </script>
+</body>
+</html>
